@@ -9,10 +9,13 @@ MAIN = guyton92
 MODEL = $(BUILD_DIR)/$(MAIN)
 
 # The program depends on the following C++ modules.
-MODULES = $(MAIN) params read_params
+MODULES = $(MAIN) params read_params vars read_vars
 CPP_FILES = $(MODULES:%=$(SRC_DIR)/%.cpp)
 HDR_FILES = $(MODULES:%=$(SRC_DIR)/%.h)
 SRC_FILES = $(HDR_FILES) $(CPP_FILES)
+
+# The following files are automatically generated.
+TMP_FILES = $(addprefix $(SRC_DIR)/,params.h params.cpp vars.h vars.cpp)
 
 # The configuration file for doxygen.
 DOXY_FILE = $(SRC_DIR)/Doxyfile
@@ -67,9 +70,9 @@ $(BUILD_DIR):
 $(DOC_DIR):
 	@mkdir $(DOC_DIR)
 
-# Mark params.h and params.cpp as being intermediate files.
+# Inform make that all temporary files are secondary files.
 # They are not deleted automatically once the target is built.
-.SECONDARY: $(SRC_DIR)/params.h $(SRC_DIR)/params.cpp
+.SECONDARY: $(TMP_FILES)
 
 # Mark the phony targets.
 .PHONY: clean clobber
@@ -82,11 +85,19 @@ $(SRC_DIR)/params.h: $(SRC_DIR)/params.sh $(SRC_DIR)/params.lst
 $(SRC_DIR)/params.cpp: $(SRC_DIR)/params.sh $(SRC_DIR)/params.lst
 	@cd $(SRC_DIR) && ./params.sh
 
-# Remove the intermediate files, since they can be regenerated.
-clean:
-	-@rm -f $(SRC_DIR)/params.h $(SRC_DIR)/params.cpp
+# Generate vars.h with the script vars.sh.
+$(SRC_DIR)/vars.h: $(SRC_DIR)/vars.sh $(SRC_DIR)/vars.lst
+	@cd $(SRC_DIR) && ./vars.sh
 
-# Remove the intermediate files, the model binary and the documentation.
+# Generate vars.cpp with the script vars.sh.
+$(SRC_DIR)/vars.cpp: $(SRC_DIR)/vars.sh $(SRC_DIR)/vars.lst
+	@cd $(SRC_DIR) && ./vars.sh
+
+# Remove the temporary files, since they can be regenerated.
+clean:
+	-@rm -f $(TMP_FILES)
+
+# Remove the temporary files, the model binary and the documentation.
 clobber: clean
 	-@rm -f $(MODEL)
 	-@rm -rf $(DOC_DIR)/*

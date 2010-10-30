@@ -1,2 +1,4 @@
 params.h
 params.cpp
+vars.h
+vars.cpp

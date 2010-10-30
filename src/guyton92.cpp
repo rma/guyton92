@@ -15,6 +15,9 @@ using namespace std;
 /* Collect parameters into a single struct and allow parameter values to be
    specified in an external file. */
 #include "read_params.h"
+/* Collect state variables into a single struct, and allow the initial values
+    to be specified in an external file. */
+#include "read_vars.h"
 
 void funct(double *xin, double *yout, double *fpwl, int size) {
 	double x1 = 0, x2 = 0, y1 = 0, y2 = 0;
@@ -730,8 +733,15 @@ int main(int argc, char *argv[]) {
 	 */
 	PARAMS p;
 
+	/**
+	 * This struct holds pointers to all state variables.
+	 */
+	VARS v;
+
 	/* Initialise the PARAMS struct (p). */
 	PARAMS_INIT(p);
+	/* Initialise the VARS struct (V). */
+	VARS_INIT(v);
 
 	/* Allow parameter values to be defined in an external file. */
 	switch (argc) {

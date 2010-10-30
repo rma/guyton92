@@ -7,10 +7,14 @@ This directory contains the following files:
     guyton92.cpp/.h     The main module of the Guyton 1992 model.
     params.cpp/.h       A module that defines a struct of all model parameters.
     read_params.cpp/.h  A module for reading parameter values from files.
+    read_vars.cpp/.h    A module for reading state variable values from files.
 
     params.sh           A script to build params.cpp and params.h.
     params.lst          The list of all model parameters.
     default.exp         The default parameter values.
+
+    vars.sh             A script to build vars.cpp and vars.h.
+    vars.lst            The list of all model state variables.
 
     Doxyfile            The configuration file for source code documentation.
 
