@@ -44,6 +44,9 @@ cat ${PARAMS_LIST} |
 
 echo "void set_param(const PARAMS &p, const char *name, double value);" >> ${PARAMS_DEFN}
 
+PARAM_COUNT=`wc -l ${PARAMS_LIST} | awk '{ print $1; }'`
+echo "#define PARAM_COUNT ${PARAM_COUNT}" >> ${PARAMS_DEFN};
+
 #
 # Produce the code fragment that will initialise the parameters.
 #

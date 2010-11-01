@@ -17,6 +17,9 @@ using namespace std;
    to be specified in an external file. */
 #include "read_vars.h"
 
+/* Provides the ability to output the entire model state (for debugging). */
+#include "debug.h"
+
 /* The renal module, separated from the original (monolithic) code. */
 #include "module_renal.h"
 
@@ -667,7 +670,7 @@ int main(int argc, char *argv[]) {
 			&sth, &ke, &ki, &atrrfb, &atrvfb, &ahz, &ahy, &ah7, &gfr };
 
 
-	double *variables[359]= {&au4, &au2, &au8, &amk, &amna, &amrbsc, &amr, &amr1,
+	double *variables[VAR_COUNT]= {&au4, &au2, &au8, &amk, &amna, &amrbsc, &amr, &amr1,
 			&am1, &am, &amc, &anu, &anuvn, &anm, &mdflw3, &angscr, &anx, &anx1,
 			&anpr, &anpr1, &anc, &anpx, &anpl, &anpr2, &anp, &anp1, &anpc, &adhc,
 			&adhmk, &adhmv, &adhna, &adhpa, &adhpr, &adh, &adhz, &au, &au6, &auh,
@@ -703,7 +706,7 @@ int main(int argc, char *argv[]) {
 			&ptfl, &ram, &rfabd, &rfabx, &rfcdft, &rmult, &rnaull, &rnauul, &rps,
 			&tens, &tens1, &tens2, &trnstm, &trrbc, &tvz, &vg, &vud1, &vud2};
 
-	double *parameters[219] = { &a1k, &a2k, &a3k, &a4k, &a4k2, &aark, &adhpam,
+	double *parameters[PARAM_COUNT] = { &a1k, &a2k, &a3k, &a4k, &a4k2, &aark, &adhpam,
 			&adhtc, &ah10, &ah11, &ah9, &ahmnar, &ahthm, &alclk, &aldmm,
 			&amcsns, &amkm, &amkmul, &amnam, &amt, &ancsns, &anmald, &anmam,
 			&anmem, &anmkem, &anmnam, &anmslt, &anmtm, &anptc, &anpxaf, &ant,

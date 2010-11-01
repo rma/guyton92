@@ -44,6 +44,9 @@ cat ${VARS_LIST} |
 
 echo "void set_var(const VARS &v, const char *name, double value);" >> ${VARS_DEFN}
 
+VAR_COUNT=`wc -l ${VARS_LIST} | awk '{ print $1; }'`
+echo "#define VAR_COUNT ${VAR_COUNT}" >> ${VARS_DEFN};
+
 #
 # Produce the code fragment that will initialise the state variables.
 #
