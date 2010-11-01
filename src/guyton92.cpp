@@ -6,8 +6,6 @@
 // Description : Hello World in //, Ansi-style
 //============================================================================
 
-//#include <stdio.h>
-#include <stdlib.h>
 #include <cmath>
 #include <iostream>
 using namespace std;
@@ -16,7 +14,7 @@ using namespace std;
    specified in an external file. */
 #include "read_params.h"
 /* Collect state variables into a single struct, and allow the initial values
-    to be specified in an external file. */
+   to be specified in an external file. */
 #include "read_vars.h"
 
 void funct(double *xin, double *yout, double *fpwl, int size) {
@@ -1204,12 +1202,12 @@ int main(int argc, char *argv[]) {
 
 		i5 = i5 + i2;
 
-		if ((i5 <= i) and (abs(pa - pa3) > pa4 or abs(pa - pa3) > pa4 or abs(
-				qao - qlo) > qaolm or abs(qao - qpo) > qaolm or abs(qao - qro)
+		if ((i5 <= i) and (fabs(pa - pa3) > pa4 or fabs(pa - pa3) > pa4 or fabs(
+				qao - qlo) > qaolm or fabs(qao - qpo) > qaolm or fabs(qao - qro)
 		> qaolm * 2)) {//goto 140;
 			continue;
 		}
-		//if(abs(pa-pa3) > pa4)goto 100;
+		//if(fabs(pa-pa3) > pa4)goto 100;
 
 		//
 
@@ -1217,13 +1215,13 @@ int main(int argc, char *argv[]) {
 
 		//
 
-		//if (abs(pa-pa3) > pa4) goto 100  ;//NB: imported this from turboc version, TCIRC92
+		//if (fabs(pa-pa3) > pa4) goto 100  ;//NB: imported this from turboc version, TCIRC92
 
-		//if (abs(qao-qlo) > qaolm) goto 100;
+		//if (fabs(qao-qlo) > qaolm) goto 100;
 
-		//if (abs(qao-qpo) > qaolm) goto 100;
+		//if (fabs(qao-qpo) > qaolm) goto 100;
 
-		//if (abs(qao-qro) > qaolm*2) goto 100;
+		//if (fabs(qao-qro) > qaolm*2) goto 100;
 
 
 		//
@@ -1239,7 +1237,7 @@ int main(int argc, char *argv[]) {
 		if (i3 < i)
 			i = i3; /* I3 = upper limit */
 
-		i1 = abs(vp1 / vpd / i); /* VP1/VPD = overall stability test */
+		i1 = fabs(vp1 / vpd / i); /* VP1/VPD = overall stability test */
 
 		if (i1 < i)
 			i = i1;
@@ -1527,13 +1525,13 @@ int main(int argc, char *argv[]) {
 
 			if (i9 > i) {//goto 186;
 
-				//if(abs(po2art-po2ar1) > po2adv)goto 178       ;/* iteration until stable */
+				//if(fabs(po2art-po2ar1) > po2adv)goto 178       ;/* iteration until stable */
 
 				i9 = 0.;//186
 				break;
 			}
 
-		} while (abs(po2art - po2ar1) > po2adv);
+		} while (fabs(po2art - po2ar1) > po2adv);
 
 		o2vtst = (po2art - 67.) / 30.;
 
@@ -1578,7 +1576,7 @@ int main(int argc, char *argv[]) {
 
 		 do2m=rmo-mmo;
 
-		 if(abs(do2m) < z5)goto 188;
+		 if(fabs(do2m) < z5)goto 188;
 
 		 qom=qom+do2m*i12          ;// muscle O2 volume
 
@@ -1595,7 +1593,7 @@ int main(int argc, char *argv[]) {
 		do {
 			rmo = (pvo - pmo) * pm5 * bfm; // muscle tissue O2 delivery
 			do2m = rmo - mmo;
-			if (abs(do2m) < z5) {
+			if (fabs(do2m) < z5) {
 				i13 = 0.;
 				break;
 			}
@@ -1632,7 +1630,7 @@ int main(int argc, char *argv[]) {
 
 		 if(i21 > i)goto 1884;
 
-		 if(abs(amm1-amm3) > amm1lm)goto 1882;
+		 if(fabs(amm1-amm3) > amm1lm)goto 1882;
 
 		 1884    i21=0.;*/
 
@@ -1646,7 +1644,7 @@ int main(int argc, char *argv[]) {
 				break;
 			}
 
-		} while (abs(amm1 - amm3) > amm1lm);
+		} while (fabs(amm1 - amm3) > amm1lm);
 
 		if (amm1 < amm4)
 			amm1 = amm4;
@@ -1678,7 +1676,7 @@ int main(int argc, char *argv[]) {
 
 		 do2n=dob-mo2;
 
-		 if(abs(do2n) < z4)goto 190
+		 if(fabs(do2n) < z4)goto 190
 
 		 if(qo2 < 6..and.do2n < 0.)do2n=.1*do2n;
 
@@ -1697,7 +1695,7 @@ int main(int argc, char *argv[]) {
 			dob = (pov - pot) * 12.857 * bfn;
 			do2n = dob - mo2;
 
-			if (abs(do2n) < z4) {
+			if (fabs(do2n) < z4) {
 				i11 = 0.;
 				break;
 			}
@@ -1740,7 +1738,7 @@ int main(int argc, char *argv[]) {
 
 		 if(i17 > i)goto 1904;
 
-		 if(abs(ar1-ar4) > ar1lm)goto 1902;
+		 if(fabs(ar1-ar4) > ar1lm)goto 1902;
 
 		 1904    i17=0.;*/
 
@@ -1752,7 +1750,7 @@ int main(int argc, char *argv[]) {
 				i17 = 0.;
 				break;
 			}
-		} while (abs(ar1 - ar4) > ar1lm);
+		} while (fabs(ar1 - ar4) > ar1lm);
 
 		if (ar1 < .5)
 			ar1 = .5;
@@ -1769,7 +1767,7 @@ int main(int argc, char *argv[]) {
 
 		 if(i19 > i)goto 1908;
 
-		 if(abs(ar2-ar1) > ar2lm)goto 1906;
+		 if(fabs(ar2-ar1) > ar2lm)goto 1906;
 
 		 1908    i19=0.;*/
 
@@ -1782,7 +1780,7 @@ int main(int argc, char *argv[]) {
 				break;
 			}
 
-		} while (abs(ar2 - ar1) > ar2lm);
+		} while (fabs(ar2 - ar1) > ar2lm);
 
 		if (ar2 < .5)
 			ar2 = .5;
@@ -1816,7 +1814,7 @@ int main(int argc, char *argv[]) {
 
 		//
 
-		ahz = pow(abs(pra), ah10);/* volume receptor output = f (PRA) */
+		ahz = pow(fabs(pra), ah10);/* volume receptor output = f (PRA) */
 
 		if (pra <= .0)
 			ahz = -ahz;
@@ -2345,7 +2343,7 @@ int main(int argc, char *argv[]) {
 				i5 = 0.; /* also used in short loop, but reset here */
 				break;
 			}
-			///////if(abs(mdflw-mdflw1) > mdflw2)goto 242;
+			///////if(fabs(mdflw-mdflw1) > mdflw2)goto 242;
 
 			//
 
@@ -2355,7 +2353,7 @@ int main(int argc, char *argv[]) {
 
 			//////251     i5=0.;              	/* also used in short loop, but reset here */
 
-		} while (abs(mdflw - mdflw1) > mdflw2);
+		} while (fabs(mdflw - mdflw1) > mdflw2);
 
 		rcprs = ((rfn - 1.2) * rfabx + 1.2) * rvrs;/* renal peritub. cap pressure */
 
@@ -2452,8 +2450,8 @@ int main(int argc, char *argv[]) {
 
 			//
 
-			//if(abs(vudn-vud1) > vud2)goto 253;
-		} while (abs(vudn - vud1) > vud2);
+			//if(fabs(vudn-vud1) > vud2)goto 253;
+		} while (fabs(vudn - vud1) > vud2);
 
 		//   /* -- end urinary excretion loop -- */
 
@@ -2526,7 +2524,7 @@ int main(int argc, char *argv[]) {
 
 			vic = vic + vid * i14;/* intracellular volume */
 
-			if (abs(vid) < vid1) {//goto 265;
+			if (fabs(vid) < vid1) {//goto 265;
 				i15 = 0.;
 				break;
 			}
