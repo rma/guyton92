@@ -17,6 +17,9 @@ using namespace std;
    to be specified in an external file. */
 #include "read_vars.h"
 
+/* The renal module, separated from the original (monolithic) code. */
+#include "module_renal.h"
+
 void funct(double *xin, double *yout, double *fpwl, int size) {
 	double x1 = 0, x2 = 0, y1 = 0, y2 = 0;
 
@@ -2224,6 +2227,9 @@ int main(int argc, char *argv[]) {
 
 		//
 
+#ifdef MODULAR
+		module_renal(p, v);
+#else
 		par = pa - gbl;/* Goldblatt clamp  240*/
 
 		if (raprsp > 0.)
@@ -2475,6 +2481,7 @@ int main(int argc, char *argv[]) {
 
 		urod = dturi * rek;
 
+#endif
 		//
 
 		//##########################################################################################################################################
