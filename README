@@ -28,9 +28,13 @@ This directory contains the following files:
 
 The following targets are defined in the Makefile:
 
-  all:     Build the model binary and documentation (default target).
+  all:     Build the model binaries and documentation (default target).
 
-  model:   Build the model binary.
+  model:   Build the model binaries.
+
+  modular: Build the modular model binary.
+
+  mono:    Build the monolithic model binary.
 
   docs:    Generate documentation of the model source code (using doxygen).
 

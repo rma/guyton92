@@ -5,8 +5,10 @@ BUILD_DIR = build
 
 # The basename of the main C++ source file.
 MAIN = guyton92
-# The name of the binary for the compiled model.
-MODEL = $(BUILD_DIR)/$(MAIN)
+# The name of the monolithic binary for the compiled model.
+MONO_BIN = $(BUILD_DIR)/$(MAIN).mono
+# The name of the modular binary for the compiled model.
+MODU_BIN = $(BUILD_DIR)/$(MAIN).modular
 
 # The program depends on the following C++ modules.
 MODULES = $(MAIN) params read_params vars read_vars
@@ -43,16 +45,24 @@ endif
 # Targets
 #
 
-# The default target is to build the model binary and the documentation.
-all: model docs
+# The default target is to build the model binaries and the documentation.
+all: mono modular docs
 
-# Provide "model" as a separate target.
-model: $(MODEL)
+# Provide "modular" as a target
+modular: GCC_FLAGS += -D MODULAR
+modular: $(MODU_BIN)
 
-# The output program depends on all source files (*.cpp and *.h).
-$(MODEL): $(SRC_FILES) $(BUILD_DIR)
+# Provide "mono" as a target
+mono: $(MONO_BIN)
+
+# Provide "model" as a separate target that builds both binaries.
+model: modular mono
+
+# The output binaries depend on all source files (*.cpp and *.h).
+$(MONO_BIN) $(MODU_BIN): $(SRC_FILES)
 	@echo "  [Compiling]"
-	@$(GCC) $(GCC_FLAGS) -o $(MODEL) $(CPP_FILES)
+	@if [ ! -d $(BUILD_DIR) ]; then mkdir $(BUILD_DIR); fi
+	@$(GCC) $(GCC_FLAGS) -o $@ $(CPP_FILES)
 
 # Provide "docs" as a separate target.
 docs: $(DOC_DIR)/index.html
@@ -60,22 +70,15 @@ docs: $(DOC_DIR)/index.html
 # The documentation depends on the source and doxygen configuration file.
 $(DOC_DIR)/index.html: $(DOC_DIR) $(SRC_FILES) $(DOXY_FILE)
 	@echo "  [Documentation]"
+	@if [ ! -d $(DOC_DIR) ]; then mkdir $(DOC_DIR); fi
 	@cd $(SRC_DIR) && $(DOXYGEN)
-
-# Create the build directory if it does not exist.
-$(BUILD_DIR):
-	@mkdir $(BUILD_DIR)
-
-# Create the documentation directory if it does not exist.
-$(DOC_DIR):
-	@mkdir $(DOC_DIR)
 
 # Inform make that all temporary files are secondary files.
 # They are not deleted automatically once the target is built.
 .SECONDARY: $(TMP_FILES)
 
 # Mark the phony targets.
-.PHONY: clean clobber
+.PHONY: modular mono model docs clean clobber
 
 # Generate params.h with the script params.sh.
 $(SRC_DIR)/params.h: $(SRC_DIR)/params.sh $(SRC_DIR)/params.lst
@@ -99,5 +102,5 @@ clean:
 
 # Remove the temporary files, the model binary and the documentation.
 clobber: clean
-	-@rm -f $(MODEL)
+	-@rm -f $(MONO_BIN) $(MODU_BIN)
 	-@rm -rf $(DOC_DIR)/*
