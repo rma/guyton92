@@ -33,6 +33,8 @@ using namespace std;
 #include "module_autonom.h"
 /* The aldosterone module. */
 #include "module_aldost.h"
+/* The angiotensin module. */
+#include "module_angio.h"
 
 int main(int argc, char *argv[]) {
 
@@ -1316,6 +1318,10 @@ int main(int argc, char *argv[]) {
 		//##########################################################################################################################################
 		//############################################################# Angiotensin ################################################################
 		//##########################################################################################################################################
+
+#ifdef MODULAR
+		module_angio(p, v);
+#else
 		// block input  = MDFLW (from Kidney block);
 
 		// block output = ANU   (to VVE, venous volume; R1, composite arterial resistance)
@@ -1366,6 +1372,7 @@ int main(int argc, char *argv[]) {
 			anu = anull;
 
 		anuvn = (anu - 1.) * anuvm + 1.;
+#endif
 
 		//##########################################################################################################################################
 		//############################################################# ATRIAL NATRIURETIC PEPTIDE #################################################

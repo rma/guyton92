@@ -22,6 +22,7 @@ This directory contains the following files:
     module_circdyn      The circulatory dynamics portion of the model.
     module_autonom      The autonomic circulation control module.
     module_aldost       The aldosterone module.
+    module_angio        The angiotensin module.
 
     Doxyfile            The configuration file for source code documentation.
 
