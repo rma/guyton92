@@ -31,6 +31,8 @@ using namespace std;
 #include "module_circdyn.h"
 /* The autonomic circulation module. */
 #include "module_autonom.h"
+/* The aldosterone module. */
+#include "module_aldost.h"
 
 int main(int argc, char *argv[]) {
 
@@ -1257,6 +1259,10 @@ int main(int argc, char *argv[]) {
 		//##########################################################################################################################################
 		//############################################################# Aldosterone ################################################################
 		//##########################################################################################################################################
+
+#ifdef MODULAR
+		module_aldost(p, v);
+#else
 		///*
 
 		// block input  = CKE (from Electrolytes block)
@@ -1304,6 +1310,7 @@ int main(int argc, char *argv[]) {
 		if (amna > amnaul)
 			amna = amnaul;
 
+#endif
 		//
 
 		//##########################################################################################################################################

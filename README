@@ -21,6 +21,7 @@ This directory contains the following files:
     module_renal        The renal portion of the model, in a separate module.
     module_circdyn      The circulatory dynamics portion of the model.
     module_autonom      The autonomic circulation control module.
+    module_aldost       The aldosterone module.
 
     Doxyfile            The configuration file for source code documentation.
 
