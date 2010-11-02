@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 
 #include "params.h"
 #include "vars.h"
@@ -8,6 +8,14 @@
  * The output stream to which the debugging information will be printed.
  */
 FILE *out = stderr;
+
+/**
+ * The maximum number of times to print the model state in a single execution.
+ * Printing the model state at every time-step drastically slows down the
+ * simulation, and any differences between the monolithic and modular builds
+ * of the model should rapidly become apparent.
+ */
+#define MAX_PRINTS 50
 
 /**
  * Sets the output stream to which the debugging information is printed.
@@ -34,6 +42,12 @@ void set_debug_stream(FILE *stream) {
  *                   to \c NULL when no prefix is desired.
  */
 void print_model_state(const PARAMS &p, const VARS &v, char *prefix) {
+  /* Avoid printing out the model state at every time-step. */
+  static int count = 0;
+  if (count++ > MAX_PRINTS) {
+    return;
+  }
+
   /* The parameters and variables structs only contain pointers to doubles.
      Therefore, we can typecast them to arrays of pointers to doubles, as
      long as we don't walk off the end of the array. */
