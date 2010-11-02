@@ -9,6 +9,7 @@ This directory contains the following files:
     read_params.cpp/.h  A module for reading parameter values from files.
     read_vars.cpp/.h    A module for reading state variable values from files.
     debug.cpp/.h        Basic debugging support (eg, printing the model state).
+    utils.cpp/.h        Utility functions for performing calculations.
 
     params.sh           A script to build params.cpp and params.h.
     params.lst          The list of all model parameters.

@@ -21,26 +21,13 @@ using namespace std;
 /* Provides the ability to output the entire model state (for debugging). */
 #include "debug.h"
 
+/* Provides the utility function funct(), which is used by the circulatory
+   dynamics and capillary dynamics modules of the model. */
+#include "utils.h"
+
 /* The renal module, separated from the original (monolithic) code. */
 #include "module_renal.h"
 
-void funct(double *xin, double *yout, double *fpwl, int size) {
-	double x1 = 0, x2 = 0, y1 = 0, y2 = 0;
-
-	for (int j = 1; (j * 2 + 2) < (size + 1); j++) {
-
-		x1 = fpwl[j * 2 - 1 - 1];
-		y1 = fpwl[j * 2 - 1];
-		x2 = fpwl[j * 2 + 1 - 1];
-		y2 = fpwl[j * 2 + 2 - 1];
-
-		if (*xin >= x1 and *xin <= x2) {
-			*yout = y1 + (*xin - x1) * (y2 - y1) / (x2 - x1);
-			//cout<< j <<endl;
-			break;
-		}
-	}
-}
 int main(int argc, char *argv[]) {
 
 	double t = 0.00E+000;

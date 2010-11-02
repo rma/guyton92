@@ -11,7 +11,7 @@ MONO_BIN = $(BUILD_DIR)/$(MAIN).mono
 MODU_BIN = $(BUILD_DIR)/$(MAIN).modular
 
 # The program depends on the following C++ modules.
-MODULES = $(MAIN) params read_params vars read_vars debug
+MODULES = $(MAIN) params read_params vars read_vars debug utils
 MODULES += module_renal
 
 CPP_FILES = $(MODULES:%=$(SRC_DIR)/%.cpp)
