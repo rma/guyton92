@@ -4,12 +4,12 @@ This directory contains the following files:
   Makefile              The Makefile to build a binary of the model.
 
   src/                  The directory containing the source of the model.
-    guyton92.cpp/.h     The main module of the Guyton 1992 model.
-    params.cpp/.h       A module that defines a struct of all model parameters.
-    read_params.cpp/.h  A module for reading parameter values from files.
-    read_vars.cpp/.h    A module for reading state variable values from files.
-    debug.cpp/.h        Basic debugging support (eg, printing the model state).
-    utils.cpp/.h        Utility functions for performing calculations.
+    guyton92            The main module of the Guyton 1992 model.
+    params              A module that defines a struct of all model parameters.
+    read_params         A module for reading parameter values from files.
+    read_vars           A module for reading state variable values from files.
+    debug               Basic debugging support (eg, printing the model state).
+    utils               Utility functions for performing calculations.
 
     params.sh           A script to build params.cpp and params.h.
     params.lst          The list of all model parameters.
@@ -18,12 +18,13 @@ This directory contains the following files:
     vars.sh             A script to build vars.cpp and vars.h.
     vars.lst            The list of all model state variables.
 
-    module_renal.cpp/.h The renal portion of the model, in a separate module.
+    module_renal        The renal portion of the model, in a separate module.
 
     Doxyfile            The configuration file for source code documentation.
 
   build/                The directory containing the compiled binary.
-    guyton92            The binary of the model.
+    guyton92.mono       The binary of the monolithic model.
+    guyton92.modular    The binary of the modular model.
 
   doc/                  The directory containing the source code documentation.
     index.html          The main index of the documentation.
