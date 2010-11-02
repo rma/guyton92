@@ -35,6 +35,8 @@ using namespace std;
 #include "module_aldost.h"
 /* The angiotensin module. */
 #include "module_angio.h"
+/* The atrial natriuretic peptide (ANP) module. */
+#include "module_anp.h"
 
 int main(int argc, char *argv[]) {
 
@@ -1378,7 +1380,9 @@ int main(int argc, char *argv[]) {
 		//############################################################# ATRIAL NATRIURETIC PEPTIDE #################################################
 		//##########################################################################################################################################
 
-
+#ifdef MODULAR
+		module_anp(p, v);
+#else
 		///*
 
 		// block input  = PLA, PRA (from Circulation);
@@ -1413,6 +1417,7 @@ int main(int argc, char *argv[]) {
 
 		if (anpx < -1.)
 			anpx = -1.;
+#endif
 
 		//##########################################################################################################################################
 		//############################################################# RED CELLS AND VISCOSITY ####################################################
