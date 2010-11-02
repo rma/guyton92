@@ -8,6 +8,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
 /* Collect parameters into a single struct and allow parameter values to be
