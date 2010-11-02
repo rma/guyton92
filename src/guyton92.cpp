@@ -37,6 +37,8 @@ using namespace std;
 #include "module_angio.h"
 /* The atrial natriuretic peptide (ANP) module. */
 #include "module_anp.h"
+/* The red blood cell (RBC) and viscosity module. */
+#include "module_rbc.h"
 
 int main(int argc, char *argv[]) {
 
@@ -1423,6 +1425,9 @@ int main(int argc, char *argv[]) {
 		//############################################################# RED CELLS AND VISCOSITY ####################################################
 		//##########################################################################################################################################
 
+#ifdef MODULAR
+		module_rbc(p, v);
+#else
 
 		// block input  = VP  (from Capillary dynamics);
 
@@ -1576,6 +1581,7 @@ int main(int argc, char *argv[]) {
 		o2vad1 = o2vad1 + do2vad * i;
 
 		o2vad2 = o2vad1 + 1.;
+#endif
 
 		//##########################################################################################################################################
 		//########################################### O2 DELIVERY and BLOOD FLOW AUTOREGULATION ####################################################

@@ -24,6 +24,7 @@ This directory contains the following files:
     module_aldost       The aldosterone module.
     module_angio        The angiotensin module.
     module_anp          The atrial natriuretic peptide (ANP) module.
+    module_rbc          The red blood cell (RBC) and viscosity module.
 
     Doxyfile            The configuration file for source code documentation.
 

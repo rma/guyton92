@@ -13,7 +13,7 @@ MODU_BIN = $(BUILD_DIR)/$(MAIN).modular
 # The program depends on the following C++ modules.
 MODULES = $(MAIN) params read_params vars read_vars debug utils
 MODULES += module_circdyn module_autonom module_aldost module_angio
-MODULES += module_anp module_renal
+MODULES += module_anp module_rbc module_renal
 
 CPP_FILES = $(MODULES:%=$(SRC_DIR)/%.cpp)
 HDR_FILES = $(MODULES:%=$(SRC_DIR)/%.h)
