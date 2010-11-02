@@ -27,6 +27,8 @@ using namespace std;
 
 /* The renal module, separated from the original (monolithic) code. */
 #include "module_renal.h"
+/* The circulatory dynamics module. */
+#include "module_circdyn.h"
 
 int main(int argc, char *argv[]) {
 
@@ -845,7 +847,9 @@ int main(int argc, char *argv[]) {
 		//#################################################### Circulatory dynamics part ###########################################################
 		//##########################################################################################################################################
 
-
+#ifdef MODULAR
+		module_circdyn(p, v);
+#else
 		//    /* blood volume change partitioned into the various circulation sections */
 
 
@@ -1076,6 +1080,7 @@ int main(int argc, char *argv[]) {
 		dla = qpo - qlo;/* left atrium */
 
 		dra = qvo - qro;/* right atrium */
+#endif
 
 		//##########################################################################################################################################
 		//#################################################### Autonomic control of the circulation #################################################
