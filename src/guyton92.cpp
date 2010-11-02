@@ -29,6 +29,8 @@ using namespace std;
 #include "module_renal.h"
 /* The circulatory dynamics module. */
 #include "module_circdyn.h"
+/* The autonomic circulation module. */
+#include "module_autonom.h"
 
 int main(int argc, char *argv[]) {
 
@@ -1085,6 +1087,12 @@ int main(int argc, char *argv[]) {
 		//##########################################################################################################################################
 		//#################################################### Autonomic control of the circulation #################################################
 		//##########################################################################################################################################
+
+#ifdef MODULAR
+		if (! module_autonom(p, v)) {
+			continue;
+		}
+#else
 		////////if(sta-aumin)120,120,116     	;/* to fix autonomic output */
 		if (sta - aumin > 0) {
 			au = sta;
@@ -1243,6 +1251,7 @@ int main(int argc, char *argv[]) {
 
 		t = t + i;
 
+#endif
 		//
 
 		//##########################################################################################################################################
