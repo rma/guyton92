@@ -14,6 +14,8 @@ MODU_BIN = $(BUILD_DIR)/$(MAIN).modular
 MODULES = $(MAIN) params read_params vars read_vars debug utils
 # Automatically add all sub-modules of the model.
 MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/module_*.cpp))
+# Automatically add all model experiments.
+MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/exp_*.cpp))
 
 CPP_FILES = $(MODULES:%=$(SRC_DIR)/%.cpp)
 HDR_FILES = $(MODULES:%=$(SRC_DIR)/%.h)
