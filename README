@@ -27,6 +27,7 @@ This directory contains the following files:
     module_rbc          The red blood cell (RBC) and viscosity module.
     module_o2deliv      The O2 delivery and blood flow autoregulation module.
     module_volrec       The volume receptors module.
+    module_adh          The antidiuretic hormone (ADH) module.
 
     Doxyfile            The configuration file for source code documentation.
 
