@@ -62,6 +62,8 @@ using namespace std;
 
 /* An experiment in rapid autoregulation. */
 #include "exp_rapidreg.h"
+/* An experiment in transfusion and blood loss. */
+#include "exp_transfuse.h"
 
 int main(int argc, char *argv[]) {
 
@@ -2737,6 +2739,10 @@ int main(int argc, char *argv[]) {
 		}
 
 #endif
+
+#ifdef MODULAR
+		exp_transfuse(p, v);
+#else
 		//
 
 		//---transfusion or loss of whole blood, plasma, or rbc
@@ -2807,6 +2813,7 @@ int main(int argc, char *argv[]) {
 
 		}
 
+#endif
 		//
 
 		//        goto 100

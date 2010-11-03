@@ -37,6 +37,7 @@ This directory contains the following files:
     module_electro      The electrolytes module.
 
     exp_rapidreg        An experiment in rapid autoregulation.
+    exp_transfuse       An experiment in transfusion and blood loss.
 
     Doxyfile            The configuration file for source code documentation.
 
