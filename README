@@ -34,6 +34,7 @@ This directory contains the following files:
     module_special      The special circulatory variables module.
     module_capdyn       The capillary dynamics module.
     module_puldyn       The pulmonary fluid dynamics module.
+    module_electro      The electrolytes module.
 
     Doxyfile            The configuration file for source code documentation.
 
