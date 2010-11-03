@@ -41,6 +41,8 @@ using namespace std;
 #include "module_rbc.h"
 /* The oxygen delivery and blood flow autoregulation module. */
 #include "module_o2deliv.h"
+/* The volume receptors module. */
+#include "module_volrec.h"
 
 int main(int argc, char *argv[]) {
 
@@ -1843,6 +1845,9 @@ int main(int argc, char *argv[]) {
 		//########################################################## VOLUME RECEPTORS ##############################################################
 		//##########################################################################################################################################
 
+#ifdef MODULAR
+		module_volrec(p, v);
+#else
 		// block input  = PRA (from Circulation);
 
 		// block output = ATRRFB (to R1, composite arterial resistance)
@@ -1868,6 +1873,7 @@ int main(int argc, char *argv[]) {
 
 		atrvfb = ah7 * atrvm;/* effect on untressed venous volume */
 
+#endif
 		//##########################################################################################################################################
 		//######################################################### ANTIDIUREETIC HORMONE ##########################################################
 		//##########################################################################################################################################

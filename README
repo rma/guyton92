@@ -26,6 +26,7 @@ This directory contains the following files:
     module_anp          The atrial natriuretic peptide (ANP) module.
     module_rbc          The red blood cell (RBC) and viscosity module.
     module_o2deliv      The O2 delivery and blood flow autoregulation module.
+    module_volrec       The volume receptors module.
 
     Doxyfile            The configuration file for source code documentation.
 
