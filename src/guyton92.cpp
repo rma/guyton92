@@ -6,8 +6,8 @@
  * Based on the original monolithic Fortran 77 code and a faithful translation
  * of this code to C++ by Thibault Grosse.
  *
- * The intention of this work is to develop a significantly more detailed of
- * renal function to replace the renal block of the Guyton 1992 model.
+ * The intention of this work is to develop a significantly more detailed model
+ * of renal function to replace the renal block of the Guyton 1992 model.
  */
 
 #include <cmath>
@@ -19,7 +19,7 @@ using namespace std;
 /* Collect parameters into a single struct and allow parameter values to be
    specified in an external file. */
 #include "read_params.h"
-/* Collect state variables into a single struct, and allow the initial values
+/* Collect state variables into a single struct and allow the initial values
    to be specified in an external file. */
 #include "read_vars.h"
 
