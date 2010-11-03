@@ -60,6 +60,9 @@ using namespace std;
 /* The electrolytes module. */
 #include "module_electro.h"
 
+/* An experiment in rapid autoregulation. */
+#include "exp_rapidreg.h"
+
 int main(int argc, char *argv[]) {
 
 	double t = 0.00E+000;
@@ -2640,6 +2643,9 @@ int main(int argc, char *argv[]) {
 		//####################################################### SPECIAL EXPERIMENT ###############################################################
 		//##########################################################################################################################################
 
+#ifdef MODULAR
+		exp_rapidreg(p, v);
+#else
 		//---very rapid autoregulation
 
 		///* to cause very rapid autoregulation in all vascular beds except kidneys */
@@ -2730,6 +2736,7 @@ int main(int argc, char *argv[]) {
 
 		}
 
+#endif
 		//
 
 		//---transfusion or loss of whole blood, plasma, or rbc

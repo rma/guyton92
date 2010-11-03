@@ -36,6 +36,8 @@ This directory contains the following files:
     module_puldyn       The pulmonary fluid dynamics module.
     module_electro      The electrolytes module.
 
+    exp_rapidreg        An experiment in rapid autoregulation.
+
     Doxyfile            The configuration file for source code documentation.
 
   build/                The directory containing the compiled binary.
