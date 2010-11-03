@@ -45,6 +45,8 @@ using namespace std;
 #include "module_volrec.h"
 /* The antidiuretic hormone (ADH) module. */
 #include "module_adh.h"
+/* The stress relaxation module. */
+#include "module_stress.h"
 
 int main(int argc, char *argv[]) {
 
@@ -1943,6 +1945,9 @@ int main(int argc, char *argv[]) {
 		//########################################################## STRESS RELAXATION #############################################################
 		//##########################################################################################################################################
 
+#ifdef MODULAR
+		module_stress(p, v);
+#else
 
 		// block input  = VVE;
 
@@ -1957,6 +1962,7 @@ int main(int argc, char *argv[]) {
 		//vv7=vv7+((vve-.74)*sr-vv7)*(1.-1./2.7183**(i/srk));
 		vv7 = vv7 + ((vve - .74) * sr - vv7) * (1. - 1. / pow(2.7183, i / srk));
 
+#endif
 		//
 		//##########################################################################################################################################
 		//########################################################## THIRST AND DRINK ##############################################################
