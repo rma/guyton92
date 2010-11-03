@@ -39,6 +39,8 @@ using namespace std;
 #include "module_anp.h"
 /* The red blood cell (RBC) and viscosity module. */
 #include "module_rbc.h"
+/* The oxygen delivery and blood flow autoregulation module. */
+#include "module_o2deliv.h"
 
 int main(int argc, char *argv[]) {
 
@@ -1587,6 +1589,9 @@ int main(int argc, char *argv[]) {
 		//########################################### O2 DELIVERY and BLOOD FLOW AUTOREGULATION ####################################################
 		//##########################################################################################################################################
 
+#ifdef MODULAR
+		module_o2deliv(p, v);
+#else
 
 		// muscle o2 delivery
 
@@ -1832,6 +1837,7 @@ int main(int argc, char *argv[]) {
 		arm = (ar1 * ar2 * ar3 - 1.) * autosn + 1.;
 
 		//
+#endif
 
 		//##########################################################################################################################################
 		//########################################################## VOLUME RECEPTORS ##############################################################
