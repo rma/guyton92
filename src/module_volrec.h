@@ -1,1 +1,1 @@
-void module_volrec(const PARAMS &p, const VARS &v);
+void module_volrec(const PARAMS &p, VARS &v);

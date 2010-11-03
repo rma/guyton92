@@ -5,10 +5,8 @@ BUILD_DIR = build
 
 # The basename of the main C++ source file.
 MAIN = guyton92
-# The name of the monolithic binary for the compiled model.
-MONO_BIN = $(BUILD_DIR)/$(MAIN).mono
-# The name of the modular binary for the compiled model.
-MODU_BIN = $(BUILD_DIR)/$(MAIN).modular
+# The name of the binary for the compiled model.
+BINARY = $(BUILD_DIR)/$(MAIN)
 
 # The program depends on the following C++ modules.
 MODULES = $(MAIN) params read_params vars read_vars debug utils
@@ -50,21 +48,14 @@ endif
 # Targets
 #
 
-# The default target is to build the model binaries and the documentation.
-all: mono modular docs
+# The default target is to build the model binary and the documentation.
+all: model docs
 
-# Provide "modular" as a target
-modular: GCC_FLAGS += -D MODULAR
-modular: $(MODU_BIN)
+# Provide "model" as a separate target that builds the model binary.
+model: $(BINARY)
 
-# Provide "mono" as a target
-mono: $(MONO_BIN)
-
-# Provide "model" as a separate target that builds both binaries.
-model: modular mono
-
-# The output binaries depend on all source files (*.cpp and *.h).
-$(MONO_BIN) $(MODU_BIN): $(SRC_FILES)
+# The output binary depends on all source files.
+$(BINARY): $(SRC_FILES)
 	@echo "  [Compiling]"
 	@if [ ! -d $(BUILD_DIR) ]; then mkdir $(BUILD_DIR); fi
 	@$(GCC) $(GCC_FLAGS) -o $@ $(CPP_FILES)
@@ -83,22 +74,22 @@ $(DOC_DIR)/index.html: $(DOC_DIR) $(SRC_FILES) $(DOXY_FILE)
 .SECONDARY: $(TMP_FILES)
 
 # Mark the phony targets.
-.PHONY: modular mono model docs clean clobber
+.PHONY: model docs clean clobber
 
 # Generate params.h with the script params.sh.
-$(SRC_DIR)/params.h: $(SRC_DIR)/params.sh $(SRC_DIR)/params.lst
+$(SRC_DIR)/params.h: $(addprefix $(SRC_DIR)/,params.sh params.lst params.val)
 	@cd $(SRC_DIR) && ./params.sh
 
 # Generate params.cpp with the script params.sh.
-$(SRC_DIR)/params.cpp: $(SRC_DIR)/params.sh $(SRC_DIR)/params.lst
+$(SRC_DIR)/params.cpp: $(addprefix $(SRC_DIR)/,params.sh params.lst params.val)
 	@cd $(SRC_DIR) && ./params.sh
 
 # Generate vars.h with the script vars.sh.
-$(SRC_DIR)/vars.h: $(SRC_DIR)/vars.sh $(SRC_DIR)/vars.lst
+$(SRC_DIR)/vars.h: $(addprefix $(SRC_DIR)/,vars.sh vars.lst vars.val)
 	@cd $(SRC_DIR) && ./vars.sh
 
 # Generate vars.cpp with the script vars.sh.
-$(SRC_DIR)/vars.cpp: $(SRC_DIR)/vars.sh $(SRC_DIR)/vars.lst
+$(SRC_DIR)/vars.cpp: $(addprefix $(SRC_DIR)/,vars.sh vars.lst vars.val)
 	@cd $(SRC_DIR) && ./vars.sh
 
 # Remove the temporary files, since they can be regenerated.
@@ -107,5 +98,5 @@ clean:
 
 # Remove the temporary files, the model binary and the documentation.
 clobber: clean
-	-@rm -f $(MONO_BIN) $(MODU_BIN)
+	-@rm -f $(BINARY)
 	-@rm -rf $(DOC_DIR)/*

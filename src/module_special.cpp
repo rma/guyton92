@@ -17,18 +17,18 @@
  * @param[in] p      The struct of model parameters.
  * @param[in] v      The struct of state variables.
  */
-void module_special(const PARAMS &p, const VARS &v) {
+void module_special(const PARAMS &p, VARS &v) {
   /* Mean circulatory pressures. */
-  *v.pmc = (*v.vae + *v.vve + *v.vre + *v.vpe + *v.vle) / 0.11;
-  *v.pms = (*v.vae + *v.vve + *v.vre) / 0.09375;
-  *v.pmp = (*v.vpe + *v.vle) / 0.01625;
+  v.pmc = (v.vae + v.vve + v.vre + v.vpe + v.vle) / 0.11;
+  v.pms = (v.vae + v.vve + v.vre) / 0.09375;
+  v.pmp = (v.vpe + v.vle) / 0.01625;
 
   /* Heart rate. */
-  *v.hr = (72 * *v.aur + pow(*v.pr1, 0.5) * 5) * ((*v.hmd - 1) * 0.5 + 1);
+  v.hr = (72 * v.aur + pow(v.pr1, 0.5) * 5) * ((v.hmd - 1) * 0.5 + 1);
 
   /* Total peripheral resistance. */
-  *v.rtp = (*v.pa - *v.pra) / *v.qao;
+  v.rtp = (v.pa - v.pra) / v.qao;
 
   /* Stroke volume. */
-  *v.svo = *v.qlo / *v.hr;
+  v.svo = v.qlo / v.hr;
 }

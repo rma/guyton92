@@ -1,3 +1,3 @@
 #include "vars.h"
 
-void read_vars(const VARS &v, const char* infile);
+void read_vars(VARS &v, const char* infile);

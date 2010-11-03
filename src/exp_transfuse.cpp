@@ -34,24 +34,24 @@
  * @param[in] v      The struct of state variables.
  */
 
-void exp_transfuse(const PARAMS &p, const VARS &v) {
-  if (*p.timetr > 0) {
-    double pcnt = 0.01 * *v.i;
-    double pcnt_p = *p.trnsfs * pcnt * (100 - *p.hmtrns);
-    double pcnt_c = *p.trnsfs * pcnt * *p.hmtrns;
+void exp_transfuse(PARAMS &p, VARS &v) {
+  if (p.timetr > 0) {
+    double pcnt = 0.01 * v.i;
+    double pcnt_p = p.trnsfs * pcnt * (100 - p.hmtrns);
+    double pcnt_c = p.trnsfs * pcnt * p.hmtrns;
 
-    *v.vic = *v.vic + pcnt_c;
-    *v.vrc = *v.vrc + pcnt_c;
-    *v.vp = *v.vp + pcnt_p;
-    *v.nae = *v.nae + pcnt_p * *v.cna;
-    *v.ke = *v.ke + pcnt_p * *v.cke;
-    *v.ki = *v.ki + pcnt_c * *v.cki;
-    *v.prp = *v.prp + pcnt_p * *v.cpp;
+    v.vic = v.vic + pcnt_c;
+    v.vrc = v.vrc + pcnt_c;
+    v.vp = v.vp + pcnt_p;
+    v.nae = v.nae + pcnt_p * v.cna;
+    v.ke = v.ke + pcnt_p * v.cke;
+    v.ki = v.ki + pcnt_c * v.cki;
+    v.prp = v.prp + pcnt_p * v.cpp;
 
-    *v.trnstm = *v.trnstm + *v.i;
-    if (*v.trnstm > *p.timetr) {
-      *v.trnstm = 0;
-      *p.timetr = 0;
+    v.trnstm = v.trnstm + v.i;
+    if (v.trnstm > p.timetr) {
+      v.trnstm = 0;
+      p.timetr = 0;
     }
   }
 }

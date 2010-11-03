@@ -8,7 +8,7 @@ using namespace std;
    an associated numerical value. */
 #define PARAM_LINE_MAX 64
 
-void read_params(const PARAMS &p, const char* infile) {
+void read_params(PARAMS &p, const char* infile) {
   cerr << "Reading parameters from \"" << infile << "\" ... ";
 
   /* Open the input file for reading. */

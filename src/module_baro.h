@@ -1,1 +1,1 @@
-void module_baro(const PARAMS &p, const VARS &v);
+void module_baro(const PARAMS &p, VARS &v);

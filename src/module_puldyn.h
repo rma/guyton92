@@ -1,1 +1,1 @@
-void module_puldyn(const PARAMS &p, const VARS &v);
+void module_puldyn(const PARAMS &p, VARS &v);

@@ -1,1 +1,1 @@
-void exp_transfuse(const PARAMS &p, const VARS &v);
+void exp_transfuse(PARAMS &p, VARS &v);

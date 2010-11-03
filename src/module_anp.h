@@ -1,1 +1,1 @@
-void module_anp(const PARAMS &p, const VARS &v);
+void module_anp(const PARAMS &p, VARS &v);

@@ -40,22 +40,22 @@
  * @param[in] p      The struct of model parameters.
  * @param[in] v      The struct of state variables.
  */
-void exp_rapidreg(const PARAMS &p, const VARS &v) {
-  if (*v.autoC > 0) {
+void exp_rapidreg(PARAMS &p, VARS &v) {
+  if (v.autoC > 0) {
     /* There is no pressure stretch or autonomic feedback. */
-    *p.z = 1;
-    *p.sta = 1;
-    *p.paex = 0;
+    p.z = 1;
+    p.sta = 1;
+    p.paex = 0;
 
     /* No autoregulation. */
-    *p.poz = 0;
-    *p.pon = 0;
-    *p.pok = 0;
-    *p.pom = 0;
-    *p.pom2 = 0;
+    p.poz = 0;
+    p.pon = 0;
+    p.pok = 0;
+    p.pom = 0;
+    p.pom2 = 0;
 
     /* Feedback for the arterial resistances. */
-    *v.rmult = ((*v.bfn + *v.bfm) / 3.8 - 1) * *p.autogn + 1;
-    *v.rmult1 = *v.rmult1 + (*v.rmult - *v.rmult1) * *p.autok;
+    v.rmult = ((v.bfn + v.bfm) / 3.8 - 1) * p.autogn + 1;
+    v.rmult1 = v.rmult1 + (v.rmult - v.rmult1) * p.autok;
   }
 }

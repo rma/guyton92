@@ -1,1 +1,1 @@
-void module_special(const PARAMS &p, const VARS &v);
+void module_special(const PARAMS &p, VARS &v);

@@ -1,1 +1,1 @@
-void module_adh(const PARAMS &p, const VARS &v);
+void module_adh(const PARAMS &p, VARS &v);

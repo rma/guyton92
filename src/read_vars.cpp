@@ -8,7 +8,7 @@ using namespace std;
    and an associated numerical value. */
 #define VAR_LINE_MAX 64
 
-void read_vars(const VARS &v, const char* infile) {
+void read_vars(VARS &v, const char* infile) {
   cerr << "Reading state variables from \"" << infile << "\" ... ";
 
   /* Open the input file for reading. */

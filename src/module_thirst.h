@@ -1,1 +1,1 @@
-void module_thirst(const PARAMS &p, const VARS &v);
+void module_thirst(const PARAMS &p, VARS &v);

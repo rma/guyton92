@@ -1,1 +1,1 @@
-void exp_rapidreg(const PARAMS &p, const VARS &v);
+void exp_rapidreg(PARAMS &p, VARS &v);

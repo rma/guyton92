@@ -16,21 +16,21 @@
  * @param[in] p      The struct of model parameters.
  * @param[in] v      The struct of state variables.
  */
-void module_volrec(const PARAMS &p, const VARS &v) {
+void module_volrec(const PARAMS &p, VARS &v) {
   /* Volume receptor output is a function of PRA (right atrial pressure). */
-  *v.ahz = pow(fabs(*v.pra), *p.ah10);
-  if (*v.pra <= 0) {
-    *v.ahz = -*v.ahz;
+  v.ahz = pow(fabs(v.pra), p.ah10);
+  if (v.pra <= 0) {
+    v.ahz = -v.ahz;
   }
-  *v.ahz = *v.ahz * *p.ah9;
+  v.ahz = v.ahz * p.ah9;
 
   /* Volume receptor adaptation. */
-  *v.ahy = *v.ahy + (*v.ahz - *v.ahy) / *p.ah11 * *v.i;
-  *v.ah7 = *v.ahz - *v.ahy;
+  v.ahy = v.ahy + (v.ahz - v.ahy) / p.ah11 * v.i;
+  v.ah7 = v.ahz - v.ahy;
 
   /* The volume receptor effect on arterial resistance. */
-  *v.atrrfb = *v.ah7 * *v.atrfbm + 1;
+  v.atrrfb = v.ah7 * v.atrfbm + 1;
 
   /* The volume receptor effect on the unstressed venous volume. */
-  *v.atrvfb = *v.ah7 * *v.atrvm;
+  v.atrvfb = v.ah7 * v.atrvm;
 }
