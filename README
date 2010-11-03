@@ -30,6 +30,7 @@ This directory contains the following files:
     module_adh          The antidiuretic hormone (ADH) module.
     module_stress       The stress relaxation module.
     module_thirst       The thirst drive module.
+    module_baro         The baroreceptor adaptation module.
 
     Doxyfile            The configuration file for source code documentation.
 
