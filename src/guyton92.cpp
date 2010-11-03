@@ -51,6 +51,8 @@ using namespace std;
 #include "module_thirst.h"
 /* The baroreceptor adaptation module. */
 #include "module_baro.h"
+/* The special circulation variables module. */
+#include "module_special.h"
 
 int main(int argc, char *argv[]) {
 
@@ -2048,6 +2050,9 @@ int main(int argc, char *argv[]) {
 		//############################################################ SPECIAL CIRCULATORY #########################################################
 		//##########################################################################################################################################
 
+#ifdef MODULAR
+		module_special(p, v);
+#else
 
 		///* --------------- SPECIAL CIRCULATORY VARIABLES ------------------------- */
 
@@ -2077,6 +2082,7 @@ int main(int argc, char *argv[]) {
 
 		svo = qlo / hr;
 
+#endif
 		//
 		//##########################################################################################################################################
 		//############################################################# CAPILLARY DYNAMICS #########################################################
