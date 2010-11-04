@@ -63,6 +63,9 @@ using namespace std;
 /* An experiment in transfusion and blood loss. */
 #include "exp_transfuse.h"
 
+/* The debugging and instrumentation module. */
+#include "debug.h"
+
 /**
  * Prints a summary of the model state at a given point in time.
  *
@@ -120,6 +123,8 @@ int main(int argc, char *argv[]) {
 
   /* Print a summary of the initial model state. */
   print_state(0, v);
+  /* Notify all registered instruments of the initial model state. */
+  notify_instruments(p, v);
 
   /* The main simulation loop. */
   while (v.t < tend) {
@@ -169,6 +174,9 @@ int main(int argc, char *argv[]) {
     /* Perform any experiments that have been defined. */
     exp_rapidreg(p, v);
     exp_transfuse(p, v);
+
+    /* Notify all registered instruments of the current model state. */
+    notify_instruments(p, v);
   }
 
   return EXIT_SUCCESS;

@@ -17,7 +17,7 @@ This directory contains the following files:
     params              A module that defines a struct of all model parameters.
     read_params         A module for reading parameter values from files.
     read_vars           A module for reading state variable values from files.
-    debug               Basic debugging support (eg, printing the model state).
+    debug               Support for debugging and instrumentation of the model.
     utils               Utility functions for performing calculations.
 
     params.sh           A script to build the params module.

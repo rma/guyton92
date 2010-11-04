@@ -14,6 +14,8 @@ MODULES = $(MAIN) params read_params vars read_vars debug utils
 MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/module_*.cpp))
 # Automatically add all model experiments.
 MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/exp_*.cpp))
+# Automatically add all model instruments.
+MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/instr_*.cpp))
 
 CPP_FILES = $(MODULES:%=$(SRC_DIR)/%.cpp)
 HDR_FILES = $(MODULES:%=$(SRC_DIR)/%.h)
