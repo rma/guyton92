@@ -49,6 +49,9 @@ This directory contains the following files:
     exp_rapidreg        An experiment in rapid autoregulation.
     exp_transfuse       An experiment in transfusion and blood loss.
 
+    filter_times        A filter to reduce the number of state notifications.
+    instr_pa            A simple instrument that displays arterial pressure.
+
     Doxyfile            The configuration file for source code documentation.
 
   build/                The directory containing the compiled binary.

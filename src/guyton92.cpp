@@ -10,9 +10,7 @@
  * of renal function to replace the renal block of the Guyton 1992 model.
  */
 
-#include <cmath>
 #include <iostream>
-#include <iomanip>
 #include <cstdlib>
 using namespace std;
 
@@ -65,18 +63,10 @@ using namespace std;
 
 /* The debugging and instrumentation module. */
 #include "debug.h"
-
-/**
- * Prints a summary of the model state at a given point in time.
- *
- * @param[in] step The number of the current time-step.
- * @param[in] v The struct of state variables.
- */
-void print_state(int step, const VARS &v) {
-  cout.setf(ios::left);
-  cout << setw(5) << step << "\tt: " << setw(7) << v.t <<
-          "\tpa: " << setw(7) << v.pa << endl;
-}
+/* A filter to reduce the number of notifications. */
+#include "filter_times.h"
+/* An instrument to print the arterial pressure. */
+#include "instr_pa.h"
 
 /**
  * The entry point for the modular Guyton 1992 model.
@@ -105,14 +95,9 @@ int main(int argc, char *argv[]) {
     read_params(p, argv[1]);
     break;
   default:
-    cerr << "USAGE: " << argv[0] << " [parameter file]" << endl;;
-    exit(EXIT_FAILURE);;
+    cerr << "USAGE: " << argv[0] << " [parameter file]" << endl;
+    return EXIT_FAILURE;
   }
-
-  /* The times at which to print a summary of the model state. */
-  double time[] = {10070, 10075, 10130, 11510, 40140};
-  /* The index of the next time at which to print the model state. */
-  int indexTime=0;
 
   /* The simulation begins at time t = 0. */
   v.t = 0.0;
@@ -121,18 +106,17 @@ int main(int argc, char *argv[]) {
   /* The duration of the simulation (min). The default value is four weeks. */
   double tend = 60 * 24 * 7 * 4;
 
-  /* Print a summary of the initial model state. */
-  print_state(0, v);
+  /* Filter the notifications. */
+  bool initial_notification = true;
+  add_filter(filter_times, &initial_notification);
+  /* Display the arterial pressure. */
+  add_instrument(instr_pa, NULL);
+
   /* Notify all registered instruments of the initial model state. */
   notify_instruments(p, v);
 
   /* The main simulation loop. */
   while (v.t < tend) {
-    /* Check whether a summary of the model state should be printed. */
-    if (v.t >= time[indexTime] and indexTime < 5) {
-      print_state(time[indexTime++], v);
-    }
-
     /* Disable autoregulation if AURG is positive. */
     if (v.aurg <= 0) {
       p.poz = 0;
