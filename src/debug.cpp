@@ -95,7 +95,39 @@ struct list_item {
 /**
  * The list of instruments that have been registered.
  */
-list_item *instruments;
+list_item *instruments = NULL;
+
+/**
+ * The list of filters that have been registered.
+ */
+list_item *filters = NULL;
+
+/**
+ * This function adds an item to the head of a singly-linked list.
+ *
+ * @param[in] item A pointer to the item function.
+ * @param[in] data A pointer to the item-specific data (if any).
+ * @param[in] list The address of the pointer to the head of the list.
+ *
+ * @return \c true if the instrument was registered successfully, or \c false
+ *         if there is insufficient memory available.
+ */
+bool add_item(instrument item, void *data, list_item **list) {
+  /* Allocate memory for this item and check that it succeeded. */
+  list_item *entry = (list_item *) malloc( sizeof(list_item) );
+  if (! entry) {
+    return false;
+  }
+
+  /* Populate the item with the appropriate details. */
+  entry->notify = item;
+  entry->data = data;
+  entry->next = *list;
+
+  /* Add the item to the head of the list. */
+  *list = entry;
+  return true;
+}
 
 /**
  * This function registers an instrument to be notified of the model state at
@@ -104,24 +136,25 @@ list_item *instruments;
  * @param[in] instr A pointer to the instrument function.
  * @param[in] data A pointer to the instrument-specific data (if any).
  *
- * @return \c true if the instrument was registered successfully, and \c false
+ * @return \c true if the instrument was registered successfully, or \c false
  *         if there is insufficient memory available.
  */
 bool add_instrument(instrument instr, void *data) {
-  /* Allocate memory for this instrument and check that it succeeded. */
-  list_item *entry = (list_item *) malloc( sizeof(list_item) );
-  if (! entry) {
-    return false;
-  }
+  return add_item(instr, data, &instruments);
+}
 
-  /* Populate the instrument with the appropriate details. */
-  entry->notify = instr;
-  entry->data = data;
-  entry->next = instruments;
-
-  /* Add the instrument to the head of the list. */
-  instruments = entry;
-  return true;
+/**
+ * This function registers a filter to determine which notifications reach the
+ * registered instruments.
+ *
+ * @param[in] filter A pointer to the filter function.
+ * @param[in] data A pointer to the filter-specific data (if any).
+ *
+ * @return \c true if the filter was registered successfully, or \c false
+ *         if there is insufficient memory available.
+ */
+bool add_filter(filter filter, void *data) {
+  return add_item(filter, data, &filters);
 }
 
 /**
@@ -132,9 +165,21 @@ bool add_instrument(instrument instr, void *data) {
  * @param[in] v The struct of state variables.
  */
 void notify_instruments(const PARAMS &p, const VARS &v) {
+  /* Check whether this notification is permitted by the filters. */
+  list_item *filter = filters;
+  while (filter) {
+    if (! filter->notify(p, v, filter->data)) {
+      /* A filter blocked this notification by returning false. */
+      return;
+    }
+    filter = filter->next;
+  }
+
+  /* Pointers to the current, previous and next instruments in the list. */
   list_item *curr = instruments;
   list_item *prev = NULL;
   list_item *next = NULL;
+  /* This flag records whether an instrument should be retained or removed. */
   bool keep = false;
 
   /* Notify each instrument in turn. */

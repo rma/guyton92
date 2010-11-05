@@ -16,6 +16,8 @@ MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/module_*.cpp))
 MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/exp_*.cpp))
 # Automatically add all model instruments.
 MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/instr_*.cpp))
+# Automatically add all notification filters.
+MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/filter_*.cpp))
 
 CPP_FILES = $(MODULES:%=$(SRC_DIR)/%.cpp)
 HDR_FILES = $(MODULES:%=$(SRC_DIR)/%.h)
