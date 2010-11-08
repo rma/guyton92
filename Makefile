@@ -29,16 +29,16 @@ TMP_FILES = $(addprefix $(SRC_DIR)/,params.h params.cpp vars.h vars.cpp)
 # The configuration file for doxygen.
 DOXY_FILE = $(SRC_DIR)/Doxyfile
 
-# Search for the g++ compiler. Return "ERROR" if it does not exist.
-GCC := $(shell which g++ || echo ERROR)
+# Search for the g++ and clang++ compilers. Return "ERROR" if neither exists.
+CXX := $(shell which g++ || which clang++ || echo ERROR)
 
 # Print an error message and terminate if no compiler was found.
-ifneq (,$(findstring ERROR,$(GCC)))
-    $(error ERROR: unable to find g++)
+ifneq (,$(findstring ERROR,$(CXX)))
+    $(error ERROR: unable to find g++ or clang++)
 endif
 
-# The default set of flags for the C++ compiler
-GCC_FLAGS := -w -O3
+# The flags for the C++ compiler: no optimisations and lots of warnings.
+CXXFLAGS := -O0 -std=c++98 -Wall -Wextra -Wno-unused-parameter
 
 # Search for doxygen. Return "ERROR" if it does not exist.
 DOXYGEN := $(shell which doxygen || echo ERROR)
@@ -62,13 +62,13 @@ model: $(BINARY)
 $(BINARY): $(SRC_FILES)
 	@echo "  [Compiling]"
 	@if [ ! -d $(BUILD_DIR) ]; then mkdir $(BUILD_DIR); fi
-	@$(GCC) $(GCC_FLAGS) -o $@ $(CPP_FILES)
+	@$(CXX) $(CXXFLAGS) -o $@ $(CPP_FILES)
 
 # Provide "docs" as a separate target.
 docs: $(DOC_DIR)/index.html
 
 # The documentation depends on the source and doxygen configuration file.
-$(DOC_DIR)/index.html: $(DOC_DIR) $(SRC_FILES) $(DOXY_FILE)
+$(DOC_DIR)/index.html: $(SRC_FILES) $(DOXY_FILE)
 	@echo "  [Documentation]"
 	@if [ ! -d $(DOC_DIR) ]; then mkdir $(DOC_DIR); fi
 	@cd $(SRC_DIR) && $(DOXYGEN)
