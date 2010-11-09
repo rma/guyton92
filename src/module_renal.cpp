@@ -15,33 +15,86 @@
  * @param[in] p      The struct of model parameters.
  * @param[in] v      The struct of state variables.
  *
- * Inputs to this block are:
- * - t Current simulation time (minutes).
- * - i Time-step size (minutes).
- * - PA (Circulation)
- * - AUM (Autonomic)
- * - ANM (Angiotensin)
- * - AMNA (Aldosterone)
- * - ANPX (Atrial natriuretic peptide)
- * - HM1 (Red cells)
- * - PPC (Capillary dynamics)
- * - ADHMK (Vasopressin)
- * - CNA (Electrolytes)
- * - CKE (Electrolytes)
- * - VTW (Electrolytes)
- * - VP (Capillary dynamics)
- * - VB (Red cells)
- * - AMK (Aldosterone) Aldosterone effect on potassium transport.
- * - PAMKRN (Circulatory dynamics)
- * - MYOGRS (Circulatory dynamics)
+ * <b>Renal module inputs:</b>
+ * - \b ADHMK from the \link module_adh.cpp ADH\endlink module.
+ * - \b AMK and \b AMNA from the \link module_aldost.cpp aldosterone\endlink
+ *    module.
+ * - \b ANM from the \link module_angio.cpp angiotensin\endlink module.
+ * - \b ANPX from the \link module_anp.cpp ANP\endlink module.
+ * - \b AUM and \b I from the \link module_autonom.cpp autonomic
+ *   circulation\endlink module.
+ * - \b CKE, \b CNA and \b VTW from the \link module_electro.cpp
+ *   electrolytes\endlink module.
+ * - \b MYOGRS, \b PA and \b PAMKRN from the \link module_circdyn.cpp
+ *   circulatory dynamics\endlink module.
+ * - \b PPC and \b VP from the \link module_capdyn.cpp capillary
+ *   dynamics\endlink module.
+ * - \b VB from the \link module_rbc.cpp red blood cell\endlink module.
  *
- * Outputs from this black are:
- * - NOD (sodium excretion) used by Electrolytes::NED (sodium balance).
- * - KOD (potassium excretion) used by Electrolytes::KTOTD (potassium balance).
- * - VUD (water excretion) used by Electrolytes::VTW (water balance).
- * - RBF (renal blood flow) used by Circulatory dynamics::SYSFLO.
- * - MDFLW used by Angiotensin::MDFLW3. Needs explicit initialisation.
+ * <b>Renal module outputs:</b>
+ * - \b I5 is used by the \link module_autonom.cpp autonomic
+ *   circulation\endlink module.
+ * - \b KOD, \b NOD and \b VUD are used by the \link module_electro.cpp
+ *   electrolytes\endlink module.
+ * - \b MDFLW is used by the \link module_angio.cpp angiotensin\endlink module.
+ * - \b RBF is used by the \link module_circdyn.cpp circulatory dynamics
+ *   \endlink module.
  *
+ * <b>Definition of renal module inputs:</b>
+ * - \b ADHMK: the effect of ADH on sodium and water reabsorption (no units).
+ * - \b AMK: the effect of aldosterone on cell membrane potassium transport
+ *   (no units).
+ * - \b AMNA: the effect of aldosterone on tubular sodium reabsorption
+ *   (no units).
+ * - \b ANM: the normalised angiotensin multiplier effect (no units).
+ * - \b ANPX: the rate of endogenous ANP secretion multiplier (no units).
+ * - \b AUM: the sympathetic vasoconstrictor effect on arteries (no units).
+ * - \b I: the time-step size (min). Note that this <b>varies</b>
+ *   (see the \link module_autonom.cpp autonomic circulation\endlink module).
+ * - \b CKE: the extracellular potassium concentration (mEq/L).
+ * - \b CNA: the extracellular sodium concentration (mEq/L).
+ * - \b VTW. the total body water (L).
+ * - \b MYOGRS: the myogenic autoregulation multiplier (no units).
+ * - \b PA: the systemic arterial pressure (mmHg).
+ * - \b PAMKRN: the Korner pressure effect on renal vessels (no units).
+ * - \b PPC: the plasma colloid osmotic pressure (mmHg).
+ * - \b VP: the plasma volume (L).
+ * - \b VB: the blood volume (L).
+ *
+ * <b>Use of renal module outputs:</b>
+ * - \b KOD: the rate of potassium excretion (mEq/min).
+ * - \b KTOTD = \b KID - \b KOD
+ * - (rate of change of total body potassium) = (rate of intake) - (rate of
+ *   excretion)
+ *
+ * - \b NOD: the rate of sodium excretion (mEq/min).
+ * - \b NED = \b NID * \b STH - \b NOD + \b TRPL * 142
+ * - (rate of change of extracellular sodium) = (rate of intake) * (effect of
+ *   hypoxia and angiotensin on salt and water intake) - (rate of excretion)
+ *   + (transfusion coefficient) * (<b>sodium plasma molarity, presumably</b>)
+ * - \b NOTE: the transfusion coefficient is different to the controlling
+ *   parameters for the \link exp_transfuse.cpp transfusion\endlink experiment.
+ *
+ * - \b VUD: the rate of water excretion (L/min).
+ * - \b VTW = \b VTW + (\b TVD - \b VUD) * \b I
+ * - (total body water) = (total body water) + ((rate of drinking) - (rate of
+ *   excretion)) * (time-step duration)
+ *
+ * - \b RBF: the rate of renal blood flow (L/min).
+ * - \b SYSFLO = \b BFM + \b BFN + \b RBF - (systemic blood flow) =
+ *   (muscle blood flow) + (non-muscle non-renal blood flow) +
+ *   (renal blood flow)
+ *
+ * - \b MDFLW: the normalized tubular flow at the macula densa (no units).
+ * - \b MDFLW3 = \b MDFLW3 + (\b MDFLW - \b MDFLW3) * \b MDFLWX
+ * - (macula densa flow effect on renin release) = (macula densa flow effect on
+ *   renin release) + ((normalized tubular flow at macula densa) - (macula
+ *   densa flow effect on renin release)) * (sensitivity controller)
+ *
+ * - \b I5: the time-step variable for the renal autoregulation feedback loop
+ *   (min).
+ * - This variable also regulates the stability check for the overall activity
+ *   of the \link module_autonom.cpp autonomic circulation\endlink module.
  */
 void module_renal(const PARAMS &p, VARS &v) {
   /**
