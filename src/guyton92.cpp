@@ -136,7 +136,8 @@ int main(int argc, char *argv[]) {
     module_circdyn(p, v);
     if (! module_autonom(p, v)) {
       /* If the autonomic circulation control module fails a stability check,
-         we restart the main simulation loop. */
+         we restart the main simulation loop.
+         NOTE: this is the module that increases the simulation time. */
       continue;
     }
     module_aldost(p, v);

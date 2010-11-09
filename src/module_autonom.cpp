@@ -117,6 +117,7 @@ bool module_autonom(const PARAMS &p, VARS &v) {
     v.i = v.i1;
   }
 
+  /* Increase the simulation time by one time-step. */
   v.t = v.t + v.i;
   return true;
 }
