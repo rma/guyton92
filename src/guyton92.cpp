@@ -65,8 +65,8 @@ using namespace std;
 #include "debug.h"
 /* A filter to reduce the number of notifications. */
 #include "filter_times.h"
-/* An instrument to print the arterial pressure. */
-#include "instr_pa.h"
+/* An instrument to print the renal module outputs. */
+#include "instr_renal.h"
 
 /**
  * The entry point for the modular Guyton 1992 model.
@@ -109,8 +109,8 @@ int main(int argc, char *argv[]) {
   /* Filter the notifications. */
   bool initial_notification = true;
   add_filter(filter_times, &initial_notification);
-  /* Display the arterial pressure. */
-  add_instrument(instr_pa, NULL);
+  /* Display the outputs of the renal module. */
+  add_instrument(instr_renal, NULL);
 
   /* Notify all registered instruments of the initial model state. */
   notify_instruments(p, v);
