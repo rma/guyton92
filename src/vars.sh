@@ -58,6 +58,7 @@ cat ${VARS_LIST} |
        END { print "};"; }' > ${VARS_DEFN}
 
 echo "void set_var(VARS &v, const char *name, double value);" >> ${VARS_DEFN}
+echo "double get_var(const VARS &v, const char *name);" >> ${VARS_DEFN}
 
 VAR_COUNT=`wc -l ${VARS_LIST} | awk '{ print $1; }'`
 echo "#define VAR_COUNT ${VAR_COUNT}" >> ${VARS_DEFN};
@@ -76,6 +77,7 @@ echo "} while (0)" >> ${VARS_DEFN}
 # Build the code for set_var().
 #
 echo '#include <stdio.h>' > ${VARS_CODE}
+echo '#include <cmath>' >> ${VARS_CODE}
 echo '#include <string.h>' >> ${VARS_CODE}
 echo '#include "vars.h"' >> ${VARS_CODE}
 echo '' >> ${VARS_CODE}
@@ -88,3 +90,12 @@ cat ${VARS_LIST} |
          print "  }"; }
        END { print "  fprintf(stderr, \"ERROR: Unknown variable name \\\"%s\\\"\\n\", name);";
              print "}"; };' >> ${VARS_CODE}
+
+cat ${VARS_LIST} |
+  awk 'BEGIN { print "double get_var(const VARS &v, const char *name) {"; }
+       { print "  if (! strcmp(name, \"" $1 "\")) {";
+         print "    return v." $1 ";";
+         print "  }"; }
+       END { print "  fprintf(stderr, \"ERROR: Unknown variable name \\\"%s\\\"\\n\", name);";
+             print "  return nan(\"\");";
+             print "}"; }' >> ${VARS_CODE}

@@ -58,6 +58,7 @@ cat ${PARAMS_LIST} |
        END { print "};"; }' > ${PARAMS_DEFN}
 
 echo "void set_param(PARAMS &p, const char *name, double value);" >> ${PARAMS_DEFN}
+echo "double get_param(const PARAMS &p, const char *name);" >> ${PARAMS_DEFN}
 
 PARAM_COUNT=`wc -l ${PARAMS_LIST} | awk '{ print $1; }'`
 echo "#define PARAM_COUNT ${PARAM_COUNT}" >> ${PARAMS_DEFN};
@@ -76,6 +77,7 @@ echo "} while (0)" >> ${PARAMS_DEFN}
 # Build the code for set_param().
 #
 echo '#include <stdio.h>' > ${PARAMS_CODE}
+echo '#include <cmath>' >> ${PARAMS_CODE}
 echo '#include <string.h>' >> ${PARAMS_CODE}
 echo '#include "params.h"' >> ${PARAMS_CODE}
 echo '' >> ${PARAMS_CODE}
@@ -88,3 +90,12 @@ cat ${PARAMS_LIST} |
          print "  }"; }
        END { print "  fprintf(stderr, \"ERROR: Unknown parameter name \\\"%s\\\"\\n\", name);";
              print "}"; };' >> ${PARAMS_CODE}
+
+cat ${PARAMS_LIST} |
+  awk 'BEGIN { print "double get_param(const PARAMS &p, const char *name) {"; }
+       { print "  if (! strcmp(name, \"" $1 "\")) {";
+         print "    return p." $1 ";";
+         print "  }"; }
+       END { print "  fprintf(stderr, \"ERROR: Unknown parameter name \\\"%s\\\"\\n\", name);";
+             print "  return nan(\"\");";
+             print "}"; }' >> ${PARAMS_CODE}
