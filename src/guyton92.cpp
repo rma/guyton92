@@ -1,4 +1,5 @@
 /**
+ * @file
  * A modular C++ implementation of the Guyton 1992 model.
  *
  * Robert Moss, 2010.
@@ -117,7 +118,7 @@ int main(int argc, char *argv[]) {
 
   /* The main simulation loop. */
   while (v.t < tend) {
-    /* Disable autoregulation if AURG is positive. */
+    /* Disable autoregulation if AURG is negative. */
     if (v.aurg <= 0) {
       p.poz = 0;
       p.pon = 0;
@@ -126,7 +127,7 @@ int main(int argc, char *argv[]) {
       p.pom2 = 0;
     }
 
-    /* RPS is described as "double extra-renal resistance". */
+    /* RPS is described as "doubling the extra-renal resistance". */
     if (v.rps > 0) {
       p.rar = 60;
       v.ram = 180;

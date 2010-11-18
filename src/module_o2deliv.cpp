@@ -17,6 +17,8 @@
  *
  * @param[in] p      The struct of model parameters.
  * @param[in] v      The struct of state variables.
+ *
+ * \ingroup modules
  */
 void module_o2deliv(const PARAMS &p, VARS &v) {
   v.aom = v.auo * p.o2a + 1;

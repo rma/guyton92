@@ -16,6 +16,8 @@
  *
  * @return \c true if the notification should be passed to the registered
  *         instruments, or \c false if it should not.
+ *
+ * \ingroup filters
  */
 bool filter_times(const PARAMS &p, const VARS &v, void *data) {
   /* The times at which to print a summary of the model state.

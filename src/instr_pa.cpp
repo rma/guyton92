@@ -12,6 +12,8 @@ using namespace std;
  * @param[in] p The struct of model parameters.
  * @param[in] v The struct of state variables.
  * @param[in] data This parameter is ignored.
+ *
+ * \ingroup instruments
  */
 bool instr_pa(const PARAMS &p, const VARS &v, void *data) {
   cout.setf(ios::left);

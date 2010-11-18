@@ -32,8 +32,9 @@
  *
  * @param[in] p      The struct of model parameters.
  * @param[in] v      The struct of state variables.
+ *
+ * \ingroup experiments
  */
-
 void exp_transfuse(PARAMS &p, VARS &v) {
   if (p.timetr > 0) {
     double pcnt = 0.01 * v.i;

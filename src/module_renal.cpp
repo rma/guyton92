@@ -95,6 +95,8 @@
  *   (min).
  * - This variable also regulates the stability check for the overall activity
  *   of the \link module_autonom.cpp autonomic circulation\endlink module.
+ *
+ * \ingroup modules
  */
 void module_renal(const PARAMS &p, VARS &v) {
   /**

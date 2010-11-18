@@ -95,12 +95,12 @@ struct list_item {
 /**
  * The list of instruments that have been registered.
  */
-list_item *instruments = NULL;
+list_item *list_instruments = NULL;
 
 /**
  * The list of filters that have been registered.
  */
-list_item *filters = NULL;
+list_item *list_filters = NULL;
 
 /**
  * This function adds an item to the head of a singly-linked list.
@@ -140,7 +140,7 @@ bool add_item(instrument item, void *data, list_item **list) {
  *         if there is insufficient memory available.
  */
 bool add_instrument(instrument instr, void *data) {
-  return add_item(instr, data, &instruments);
+  return add_item(instr, data, &list_instruments);
 }
 
 /**
@@ -154,7 +154,7 @@ bool add_instrument(instrument instr, void *data) {
  *         if there is insufficient memory available.
  */
 bool add_filter(filter filter, void *data) {
-  return add_item(filter, data, &filters);
+  return add_item(filter, data, &list_filters);
 }
 
 /**
@@ -166,7 +166,7 @@ bool add_filter(filter filter, void *data) {
  */
 void notify_instruments(const PARAMS &p, const VARS &v) {
   /* Check whether this notification is permitted by the filters. */
-  list_item *filter = filters;
+  list_item *filter = list_filters;
   while (filter) {
     if (! filter->notify(p, v, filter->data)) {
       /* A filter blocked this notification by returning false. */
@@ -176,7 +176,7 @@ void notify_instruments(const PARAMS &p, const VARS &v) {
   }
 
   /* Pointers to the current, previous and next instruments in the list. */
-  list_item *curr = instruments;
+  list_item *curr = list_instruments;
   list_item *prev = NULL;
   list_item *next = NULL;
   /* This flag records whether an instrument should be retained or removed. */
@@ -202,7 +202,7 @@ void notify_instruments(const PARAMS &p, const VARS &v) {
         prev->next = next;
       } else {
         /* No previous instrument, so the next one becomes the first. */
-        instruments = next;
+        list_instruments = next;
       }
     }
   }

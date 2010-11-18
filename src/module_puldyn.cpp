@@ -15,6 +15,8 @@
  *
  * @param[in] p      The struct of model parameters.
  * @param[in] v      The struct of state variables.
+ *
+ * \ingroup modules
  */
 void module_puldyn(const PARAMS &p, VARS &v) {
   v.pcp = (v.ppa - v.pla) * v.rpv / (v.rpv + v.rpa) + v.pla;

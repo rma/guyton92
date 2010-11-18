@@ -21,6 +21,8 @@ using namespace std;
  * - \b MDFLW: the normalized tubular flow at the macula densa (no units).
  * - \b I5: the time-step variable for the renal autoregulation feedback loop
  *   (min).
+ *
+ * \ingroup instruments
  */
 bool instr_renal(const PARAMS &p, const VARS &v, void *data) {
   static bool first_time = true;

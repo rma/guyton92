@@ -39,6 +39,8 @@
  *
  * @param[in] p      The struct of model parameters.
  * @param[in] v      The struct of state variables.
+ *
+ * \ingroup experiments
  */
 void exp_rapidreg(PARAMS &p, VARS &v) {
   if (v.autoC > 0) {

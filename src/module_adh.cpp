@@ -16,6 +16,8 @@
  *
  * @param[in] p      The struct of model parameters.
  * @param[in] v      The struct of state variables.
+ *
+ * \ingroup modules
  */
 void module_adh(const PARAMS &p, VARS &v) {
   /* The influence of osmoreceptors. */

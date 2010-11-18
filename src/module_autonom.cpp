@@ -17,6 +17,8 @@
  *
  * @return \c false if the main simulation loop should start again,
  *         otherwise \c true.
+ *
+ * \ingroup modules
  */
 bool module_autonom(const PARAMS &p, VARS &v) {
   if (p.sta - p.aumin > 0) {

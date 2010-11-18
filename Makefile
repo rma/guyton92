@@ -29,6 +29,9 @@ TMP_FILES = $(addprefix $(SRC_DIR)/,params.h params.cpp vars.h vars.cpp)
 # The configuration file for doxygen.
 DOXY_FILE = $(SRC_DIR)/Doxyfile
 
+# The file containing the main page of the doxygen documentation.
+MAIN_PAGE = $(SRC_DIR)/mainpage.h
+
 # Search for the g++ and clang++ compilers. Return "ERROR" if neither exists.
 CXX := $(shell which g++ || which clang++ || echo ERROR)
 
@@ -68,7 +71,7 @@ $(BINARY): $(SRC_FILES)
 docs: $(DOC_DIR)/index.html
 
 # The documentation depends on the source and doxygen configuration file.
-$(DOC_DIR)/index.html: $(SRC_FILES) $(DOXY_FILE)
+$(DOC_DIR)/index.html: $(SRC_FILES) $(DOXY_FILE) $(MAIN_PAGE)
 	@echo "  [Documentation]"
 	@if [ ! -d $(DOC_DIR) ]; then mkdir $(DOC_DIR); fi
 	@cd $(SRC_DIR) && $(DOXYGEN)

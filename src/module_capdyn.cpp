@@ -15,6 +15,8 @@
  *
  * @param[in] p      The struct of model parameters.
  * @param[in] v      The struct of state variables.
+ *
+ * \ingroup modules
  */
 void module_capdyn(const PARAMS &p, VARS &v) {
   /* fun6: vts, vg, fun6 */

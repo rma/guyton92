@@ -15,6 +15,8 @@
  *
  * @param[in] p      The struct of model parameters.
  * @param[in] v      The struct of state variables.
+ *
+ * \ingroup modules
  */
 void module_stress(const PARAMS &p, VARS &v) {
   v.vv6 = v.vv6 + ((v.vve - 0.74) * p.sr2 - v.vv6) / p.srk2 * v.i;

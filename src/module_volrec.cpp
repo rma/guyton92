@@ -15,6 +15,8 @@
  *
  * @param[in] p      The struct of model parameters.
  * @param[in] v      The struct of state variables.
+ *
+ * \ingroup modules
  */
 void module_volrec(const PARAMS &p, VARS &v) {
   /* Volume receptor output is a function of PRA (right atrial pressure). */
