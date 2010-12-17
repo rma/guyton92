@@ -255,7 +255,7 @@ void module_renal(const PARAMS &p, VARS &v) {
     v.gfr = v.gfn * p.rek;
 
     /* Filtrate flow in the proximal tubule and macula densa. */
-    v.ptfl = v.gfn * 8;
+    v.ptfl = v.gfn * 8; /* (Normal GFN of 0.125 L/min) * 8 = 1.*/
     v.mdflw1 = v.mdflw;
     v.mdflw = (v.ptfl - 1) * p.mdfl1 + 1;
     if (v.mdflw < 0) {
