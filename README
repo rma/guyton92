@@ -63,6 +63,9 @@ This directory contains the following files:
   doc/                  The directory containing the source code documentation.
     index.html          The main page of the documentation.
 
+  utils/                The directory for utilities related to the model.
+    find_vars.sh        A script to find parameter and variable references.
+
 
 
 The following targets are defined in the Makefile:
