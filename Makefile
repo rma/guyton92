@@ -33,7 +33,7 @@ DOXY_FILE = $(SRC_DIR)/Doxyfile
 MAIN_PAGE = $(SRC_DIR)/mainpage.h
 
 # Search for the g++ and clang++ compilers. Return "ERROR" if neither exists.
-CXX := $(shell which g++ || which clang++ || echo ERROR)
+CXX := $(shell which clang++ || which g++ || echo ERROR)
 
 # Print an error message and terminate if no compiler was found.
 ifneq (,$(findstring ERROR,$(CXX)))
