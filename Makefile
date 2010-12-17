@@ -9,7 +9,7 @@ MAIN = guyton92
 BINARY = $(BUILD_DIR)/$(MAIN)
 
 # The program depends on the following C++ modules.
-MODULES = $(MAIN) params read_params vars read_vars debug utils
+MODULES = $(MAIN) params read_params vars read_vars debug utils read_exp
 # Automatically add all sub-modules of the model.
 MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/module_*.cpp))
 # Automatically add all model experiments.

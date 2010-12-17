@@ -13,6 +13,10 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <fstream>
+#include <queue>
+#include <vector>
+
 using namespace std;
 
 /* Collect parameters into a single struct and allow parameter values to be
@@ -21,6 +25,8 @@ using namespace std;
 /* Collect state variables into a single struct and allow the initial values
    to be specified in an external file. */
 #include "read_vars.h"
+/* Parse experiment definitions and automatically update model parameters. */
+#include "read_exp.h"
 
 /* The renal module, separated from the original (monolithic) code. */
 #include "module_renal.h"
@@ -86,14 +92,19 @@ int main(int argc, char *argv[]) {
   /* Initialise the VARS struct (V). */
   VARS_INIT(v);
 
+  Experiment *e = NULL;
+  ifstream input;
+
   /* Allow parameter values to be defined in an external file. */
   switch (argc) {
   case 1:
     /* No arguments, only the command name. */
     break;
   case 2:
-    /* One argument, which specifies the parameters file. */
-    read_params(p, argv[1]);
+    /* One argument, which specifies the experiment file. */
+    input.open(argv[1]);
+    e = new Experiment(p, input);
+    input.close();
     break;
   default:
     cerr << "USAGE: " << argv[0] << " [parameter file]" << endl;
@@ -106,6 +117,9 @@ int main(int argc, char *argv[]) {
   v.i = 0.0030;
   /* The duration of the simulation (min). The default value is four weeks. */
   double tend = 60 * 24 * 7 * 4;
+  if (e) {
+    tend = e->stop_at();
+  }
 
   /* Filter the notifications. */
   bool initial_notification = true;
@@ -118,6 +132,10 @@ int main(int argc, char *argv[]) {
 
   /* The main simulation loop. */
   while (v.t < tend) {
+    if (e) {
+      e->update(v.t);
+    }
+
     /* Disable autoregulation if AURG is negative. */
     if (v.aurg <= 0) {
       p.poz = 0;
@@ -165,5 +183,6 @@ int main(int argc, char *argv[]) {
     notify_instruments(p, v);
   }
 
+  delete e;
   return EXIT_SUCCESS;
 }
