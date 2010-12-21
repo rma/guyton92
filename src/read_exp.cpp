@@ -55,8 +55,11 @@ Experiment::Experiment(PARAMS &p, std::istream &input) : params(p) {
   while (!input.eof()) {
     /* Read each line in turn, ignoring blank lines. */
     getline(input, line);
-    /* Note: this is white-space sensitive, which is certainly not ideal. */
-    if (! line.compare("")) {
+
+    /* Ignore blank lines and comments beginning with '#'. */
+    const char *whitespace = " \t\r\n";
+    size_t start = line.find_first_not_of(whitespace);
+    if (start == string::npos || line[start] == '#') {
       continue;
     }
 
