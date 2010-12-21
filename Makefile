@@ -12,6 +12,8 @@ BINARY = $(BUILD_DIR)/$(MAIN)
 MODULES = $(MAIN) params read_params vars read_vars debug utils read_exp
 # Automatically add all sub-modules of the model.
 MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/module_*.cpp))
+# Automatically add all models used by the Guyton model.
+MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/model_*.cpp))
 # Automatically add all model experiments.
 MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/exp_*.cpp))
 # Automatically add all model instruments.

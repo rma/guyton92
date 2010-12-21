@@ -62,6 +62,8 @@ using namespace std;
 #include "module_puldyn.h"
 /* The electrolytes module. */
 #include "module_electro.h"
+/* The replacement for the original renal module. */
+#include "module_kidney.h"
 
 /* An experiment in rapid autoregulation. */
 #include "exp_rapidreg.h"

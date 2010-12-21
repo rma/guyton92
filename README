@@ -46,6 +46,9 @@ This directory contains the following files:
     module_capdyn       The capillary dynamics module.
     module_puldyn       The pulmonary fluid dynamics module.
     module_electro      The electrolytes module.
+    module_kidney       The replacement for the original renal module.
+
+    model_moore94       The Moore 1994 model of renal autoregulation.
 
     exp_rapidreg        An experiment in rapid autoregulation.
     exp_transfuse       An experiment in transfusion and blood loss.
