@@ -10,6 +10,7 @@
 #include <string>
 #include <sstream>
 #include <cstring>
+#include <cfloat>
 
 #include "read_params.h"
 #include "read_exp.h"
@@ -83,6 +84,8 @@ Experiment::Experiment(PARAMS &p, std::istream &input) : params(p) {
       /* Then create a new, empty set of parameter values. */
       cs = new PARAM_CHANGES;
       cs->at_time = pval;
+
+      times.push_back(pval);
     } else {
       /* Copy the parameter name. */
       char *str_name = new char [pname.size()+1];
@@ -175,4 +178,23 @@ double Experiment::stop_at() {
       simulation. It would be meaningless to define any parameter changes for
       this time. */
   return changes.back().at_time;
+}
+
+/**
+ * Returns the times at which the model outputs should be recorded. The array
+ * is terminated by the value DBL_MAX,
+ */
+const double* Experiment::output_times() {
+  /* Allocate space for each time and the terminal value. */
+  int size = (int) times.size() + 1;
+  double* output_times = new double[size];
+
+  /* Record each output time. */
+  for (int i = 0; i < size; i++) {
+    output_times[i] = times[i];
+  }
+
+  /* Terminate the array with DBL_MAX and then return the array. */
+  output_times[size - 1] = DBL_MAX;
+  return output_times;
 }

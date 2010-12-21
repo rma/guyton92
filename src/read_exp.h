@@ -21,6 +21,7 @@ private:
   param_changes changes;
   PARAMS &params;
   std::string *err;
+  std::vector<double> times;
 public:
   Experiment(PARAMS &p, std::istream &input);
   ~Experiment();
@@ -28,4 +29,5 @@ public:
   double stop_at();
   bool failed();
   const std::string* errmsg();
+  const double* output_times();
 };

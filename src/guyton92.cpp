@@ -124,8 +124,8 @@ int main(int argc, char *argv[]) {
   }
 
   /* Filter the notifications. */
-  bool initial_notification = true;
-  add_filter(filter_times, &initial_notification);
+  const double *output_times = (e) ? e->output_times() : NULL;
+  add_filter(filter_times, (void *) output_times);
   /* Display the outputs of the renal module. */
   add_instrument(instr_renal, NULL);
 
@@ -185,6 +185,9 @@ int main(int argc, char *argv[]) {
     notify_instruments(p, v);
   }
 
+  if (output_times) {
+    delete[] output_times;
+  }
   delete e;
   return EXIT_SUCCESS;
 }
