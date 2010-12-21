@@ -74,8 +74,8 @@ using namespace std;
 #include "debug.h"
 /* A filter to reduce the number of notifications. */
 #include "filter_times.h"
-/* An instrument to print the renal module outputs. */
-#include "instr_renal.h"
+/* An instrument to print an arbitrary list of module outputs. */
+#include "instr_vars.h"
 
 /**
  * The entry point for the modular Guyton 1992 model.
@@ -126,8 +126,10 @@ int main(int argc, char *argv[]) {
   /* Filter the notifications. */
   const double *output_times = (e) ? e->output_times() : NULL;
   add_filter(filter_times, (void *) output_times);
-  /* Display the outputs of the renal module. */
-  add_instrument(instr_renal, NULL);
+  /* Display the specified model outputs. */
+  const std::vector<std::string> *outputs = (e) ? &e->output_vars() : NULL;
+  void* opts = instr_vars_opts(NULL, outputs);
+  add_instrument(instr_vars, opts);
 
   /* Notify all registered instruments of the initial model state. */
   notify_instruments(p, v);

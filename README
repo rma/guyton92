@@ -56,6 +56,7 @@ This directory contains the following files:
     filter_times        A filter to reduce the number of state notifications.
     instr_pa            A simple instrument that displays arterial pressure.
     instr_renal         An instrument that displays the renal module outputs.
+    instr_vars          An instrument to display arbitrary model outputs.
 
     Doxyfile            The configuration file for source code documentation.
     mainpage.h          The main page of the Doxygen documentation.
