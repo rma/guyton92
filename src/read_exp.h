@@ -22,6 +22,7 @@ private:
   PARAMS &params;
   std::string *err;
   std::vector<double> times;
+  std::vector<std::string> outputs;
 public:
   Experiment(PARAMS &p, std::istream &input);
   ~Experiment();
@@ -30,4 +31,5 @@ public:
   bool failed();
   const std::string* errmsg();
   const double* output_times();
+  const std::vector<std::string>& output_vars() const;
 };

@@ -69,9 +69,6 @@ Experiment::Experiment(PARAMS &p, std::istream &input) : params(p) {
     /* Read the parameter name. */
     string pname;
     str >> pname;
-    /* Read the parameter value. */
-    double pval;
-    str >> pval;
 
     if (! pname.compare("t=")) {
       /* If the parameter name is "t=", this specifies the start of a new set
@@ -81,12 +78,28 @@ Experiment::Experiment(PARAMS &p, std::istream &input) : params(p) {
       changes.push(*cs);
       delete cs;
 
+      /* Read the scheduled time . */
+      double pval;
+      str >> pval;
+
       /* Then create a new, empty set of parameter values. */
       cs = new PARAM_CHANGES;
       cs->at_time = pval;
 
       times.push_back(pval);
+    } else if (! pname.compare("o=")) {
+      /* If the parameter name is "o=", the rest of the line contains the
+         names of model variables to be included in the output. */
+      string varname;
+      while (str.good()) {
+        str >> varname;
+        outputs.push_back(varname);
+      }
     } else {
+      /* Read the parameter value. */
+      double pval;
+      str >> pval;
+
       /* Copy the parameter name. */
       char *str_name = new char [pname.size()+1];
       strcpy(str_name, pname.c_str());
@@ -197,4 +210,8 @@ const double* Experiment::output_times() {
   /* Terminate the array with DBL_MAX and then return the array. */
   output_times[size - 1] = DBL_MAX;
   return output_times;
+}
+
+const std::vector<std::string>& Experiment::output_vars() const {
+  return outputs;
 }
