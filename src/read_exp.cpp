@@ -65,7 +65,7 @@ Experiment::Experiment(PARAMS &p, std::istream &input) : params(p) {
     }
 
     /* Turn the line into a stream, to process each word individually. */
-    stringstream str = stringstream(line);
+    stringstream str(line);
     /* Read the parameter name. */
     string pname;
     str >> pname;
