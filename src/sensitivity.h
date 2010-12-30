@@ -11,6 +11,6 @@ void analyse(modulefn f, char* control_var, double min_val, double inc_val,
              double max_val, char** outputs, int output_count, string outfile);
 
 void gnuplot(char* control_var, int output_count, string scriptfile,
-             string datafile);
+             string datafile, string epsfile);
 
 int main(int argc, char *argv[]);

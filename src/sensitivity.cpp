@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
   string scriptfile (basename + ".gp");
   cout << scriptfile << " ... ";
   cout.flush();
-  gnuplot(control_var, output_count, scriptfile, datafile);
+  gnuplot(control_var, output_count, scriptfile, datafile, basename + ".eps");
   cout << "done" << endl;
 }
 
@@ -219,16 +219,17 @@ void analyse(modulefn f, char* control_var, double min_val, double inc_val,
  * @param[in] output_count The number of output variables.
  * @param[in] scriptfile The name of the gnuplot script file to be created.
  * @param[in] datafile The name of the file containing the analysis results.
+ * @param[in] epsfile The name of the .eps file to contain the resulting plot.
  */
 void gnuplot(char* control_var, int output_count, string scriptfile,
-             string datafile) {
+             string datafile, string epsfile) {
   char const *out_file = scriptfile.c_str();
   ofstream out_script (out_file);
 
   /* Set some basic gnuplot options. */
   out_script << "#!/usr/bin/gnuplot -p" << endl;
   out_script << "set terminal postscript monochrome rounded 32" << endl;
-  out_script << "set output '" << control_var << ".eps'" << endl;
+  out_script << "set output '" << epsfile << endl;
   out_script << "set xlabel '" << control_var << "'" << endl;
   /* Graph each of the outputs on the same plot. */
   out_script << "plot '" << datafile << "' using 1:3 title column(2)";
