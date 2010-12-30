@@ -77,6 +77,9 @@ using namespace std;
 /* An instrument to print an arbitrary list of module outputs. */
 #include "instr_vars.h"
 
+/* Forward declaration for the single_step() function. */
+void single_step(PARAMS &p, VARS &v, Experiment *e);
+
 /**
  * The entry point for the modular Guyton 1992 model.
  *
@@ -136,55 +139,7 @@ int main(int argc, char *argv[]) {
 
   /* The main simulation loop. */
   while (v.t < tend) {
-    if (e) {
-      e->update(v.t);
-    }
-
-    /* Disable autoregulation if AURG is negative. */
-    if (v.aurg <= 0) {
-      p.poz = 0;
-      p.pon = 0;
-      p.pok = 0;
-      p.pom = 0;
-      p.pom2 = 0;
-    }
-
-    /* RPS is described as "doubling the extra-renal resistance". */
-    if (v.rps > 0) {
-      p.rar = 60;
-      v.ram = 180;
-    }
-
-    /* Simulate each module of the Guyton 1992 model in turn. */
-    module_circdyn(p, v);
-    if (! module_autonom(p, v)) {
-      /* If the autonomic circulation control module fails a stability check,
-         we restart the main simulation loop.
-         NOTE: this is the module that increases the simulation time. */
-      continue;
-    }
-    module_aldost(p, v);
-    module_angio(p, v);
-    module_anp(p, v);
-    module_rbc(p, v);
-    module_o2deliv(p, v);
-    module_volrec(p, v);
-    module_adh(p, v);
-    module_stress(p, v);
-    module_thirst(p, v);
-    module_baro(p, v);
-    module_special(p, v);
-    module_capdyn(p, v);
-    module_puldyn(p, v);
-    module_renal(p, v);
-    module_electro(p, v);
-
-    /* Perform any experiments that have been defined. */
-    exp_rapidreg(p, v);
-    exp_transfuse(p, v);
-
-    /* Notify all registered instruments of the current model state. */
-    notify_instruments(p, v);
+    single_step(p, v, e);
   }
 
   if (output_times) {
@@ -192,4 +147,64 @@ int main(int argc, char *argv[]) {
   }
   delete e;
   return EXIT_SUCCESS;
+}
+
+/**
+ * Simulates a single time-step of the model.
+ *
+ * @param[in] p      The struct of model parameters.
+ * @param[in] v      The struct of state variables.
+ * @param[in] e      The chosen experiment (if any) to run.
+ */
+void single_step(PARAMS &p, VARS &v, Experiment *e) {
+  if (e) {
+    e->update(v.t);
+  }
+
+  /* Disable autoregulation if AURG is negative. */
+  if (v.aurg <= 0) {
+    p.poz = 0;
+    p.pon = 0;
+    p.pok = 0;
+    p.pom = 0;
+    p.pom2 = 0;
+  }
+
+  /* RPS is described as "doubling the extra-renal resistance". */
+  if (v.rps > 0) {
+    p.rar = 60;
+    v.ram = 180;
+  }
+
+  /* Simulate each module of the Guyton 1992 model in turn. */
+  module_circdyn(p, v);
+  if (! module_autonom(p, v)) {
+    /* If the autonomic circulation control module fails a stability check,
+       we restart the main simulation loop.
+       NOTE: this is the module that increases the simulation time. */
+    return;
+  }
+  module_aldost(p, v);
+  module_angio(p, v);
+  module_anp(p, v);
+  module_rbc(p, v);
+  module_o2deliv(p, v);
+  module_volrec(p, v);
+  module_adh(p, v);
+  module_stress(p, v);
+  module_thirst(p, v);
+  module_baro(p, v);
+  module_special(p, v);
+  module_capdyn(p, v);
+  module_puldyn(p, v);
+  module_renal(p, v);  /* Run the replacement renal module in parallel */
+  module_kidney(p, v); /* with the original module, to make comparisons. */
+  module_electro(p, v);
+
+  /* Perform any experiments that have been defined. */
+  exp_rapidreg(p, v);
+  exp_transfuse(p, v);
+
+  /* Notify all registered instruments of the current model state. */
+  notify_instruments(p, v);
 }
