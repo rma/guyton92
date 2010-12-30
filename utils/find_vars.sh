@@ -56,7 +56,7 @@ ON_SHOWEQNS=false
 FINDPARAMS=false
 
 # The relative path to the source code for the model.
-SRCDIR="../src"
+SRCDIR=`dirname $0`/"../src"
 
 #
 # Parse the command line.
