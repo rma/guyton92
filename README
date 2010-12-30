@@ -20,6 +20,7 @@ This directory contains the following files:
     read_exp            A module for processing model experiments.
     debug               Support for debugging and instrumentation of the model.
     utils               Utility functions for performing calculations.
+    sensitivity         A sensitivity analyser for individual modules.
 
     params.sh           A script to build the params module.
     params.lst          The list of all model parameters.

@@ -6,24 +6,44 @@ BUILD_DIR = build
 # The basename of the main C++ source file.
 MAIN = guyton92
 # The name of the binary for the compiled model.
-BINARY = $(BUILD_DIR)/$(MAIN)
+MAINBIN = $(BUILD_DIR)/$(MAIN)
 
-# The program depends on the following C++ modules.
-MODULES = $(MAIN) params read_params vars read_vars debug utils read_exp
-# Automatically add all sub-modules of the model.
-MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/module_*.cpp))
-# Automatically add all models used by the Guyton model.
-MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/model_*.cpp))
-# Automatically add all model experiments.
-MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/exp_*.cpp))
-# Automatically add all model instruments.
-MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/instr_*.cpp))
-# Automatically add all notification filters.
-MODULES += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/filter_*.cpp))
+# The basename of the sensitivity analyser source file.
+SENS = sensitivity
+# The name of the binary for the sensitivity analyser.
+SENSBIN = $(BUILD_DIR)/$(SENS)
 
-CPP_FILES = $(MODULES:%=$(SRC_DIR)/%.cpp)
-HDR_FILES = $(MODULES:%=$(SRC_DIR)/%.h)
-SRC_FILES = $(HDR_FILES) $(CPP_FILES)
+# The names of all binaries defined in this Makefile.
+BINARIES = $(MAINBIN) $(SENSBIN)
+
+# The C++ modules that define the core of the Guyton model.
+CORE = params vars utils
+CORE += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/module_*.cpp))
+CORE += $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/model_*.cpp))
+
+# Additional modules that extend the functionality of the Guyton model.
+EXPS = $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/exp_*.cpp))
+INSTRS = $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/instr_*.cpp))
+FILTS = $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/filter_*.cpp))
+
+# The Guyton model depends on the following C++ modules.
+MAIN_MODS = $(CORE) $(MAIN) debug read_params read_vars read_exp
+# Automatically add the additional modules.
+MAIN_MODS += $(EXPS) $(INSTRS) $(FILTS)
+# Define variables for the .cpp and .h files.
+MAIN_CPP = $(MAIN_MODS:%=$(SRC_DIR)/%.cpp)
+MAIN_HDR = $(MAIN_MODS:%=$(SRC_DIR)/%.h)
+MAIN_SRC = $(MAIN_HDR) $(MAIN_CPP)
+
+# The sensitivity analyser depends on the following C++ modules.
+SENS_MODS = $(CORE) $(SENS)
+# Define variables for the .cpp and .h files.
+SENS_CPP = $(SENS_MODS:%=$(SRC_DIR)/%.cpp)
+SENS_HDR = $(SENS_MODS:%=$(SRC_DIR)/%.h)
+SENS_SRC = $(SENS_CPP) $(SENS_HDR)
+
+# The doxygen documentation depends on every source file.
+ALL_SRC = $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(SRC_DIR)/*.h)
 
 # The following files are automatically generated.
 TMP_FILES = $(addprefix $(SRC_DIR)/,params.h params.cpp vars.h vars.cpp)
@@ -57,23 +77,29 @@ endif
 # Targets
 #
 
-# The default target is to build the model binary and the documentation.
-all: model docs
+# The default target is to build the model binaries and the documentation.
+all: $(BINARIES) docs
 
 # Provide "model" as a separate target that builds the model binary.
-model: $(BINARY)
+model: $(MAINBIN)
 
-# The output binary depends on all source files.
-$(BINARY): $(SRC_FILES)
+# Build the Guyton model.
+$(MAINBIN): $(MAIN_SRC)
 	@echo "  [Compiling]"
 	@if [ ! -d $(BUILD_DIR) ]; then mkdir $(BUILD_DIR); fi
-	@$(CXX) $(CXXFLAGS) -o $@ $(CPP_FILES)
+	@$(CXX) $(CXXFLAGS) -o $@ $(MAIN_CPP)
+
+# Build the sensitivity analyser.
+$(SENSBIN): $(SENS_SRC)
+	@echo "  [Compiling]"
+	@if [ ! -d $(BUILD_DIR) ]; then mkdir $(BUILD_DIR); fi
+	@$(CXX) $(CXXFLAGS) -o $@ $(SENS_CPP)
 
 # Provide "docs" as a separate target.
 docs: $(DOC_DIR)/index.html
 
 # The documentation depends on the source and doxygen configuration file.
-$(DOC_DIR)/index.html: $(SRC_FILES) $(DOXY_FILE) $(MAIN_PAGE)
+$(DOC_DIR)/index.html: $(ALL_SRC) $(DOXY_FILE) $(MAIN_PAGE)
 	@echo "  [Documentation]"
 	@if [ ! -d $(DOC_DIR) ]; then mkdir $(DOC_DIR); fi
 	@cd $(SRC_DIR) && $(DOXYGEN)
@@ -107,5 +133,5 @@ clean:
 
 # Remove the temporary files, the model binary and the documentation.
 clobber: clean
-	-@rm -f $(BINARY)
+	-@rm -f $(BINARIES)
 	-@rm -rf $(DOC_DIR)/*
