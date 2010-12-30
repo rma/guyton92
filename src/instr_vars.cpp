@@ -42,13 +42,18 @@ void *instr_vars_opts(char* sep, const std::vector<std::string> *vars) {
 bool instr_vars(const PARAMS &p, const VARS &v, void *data) {
   static bool first_time = true;
   char *sep = (char *) " ";
+  INSTR_VARS_OPTIONS *opts = (INSTR_VARS_OPTIONS *) data;
 
-  /* If no options were provided, this instrument can't produce any output. */
-  if (! data) {
+  /* Check whether to generate any output. */
+  if (! opts) {
+    /* If no options were provided, no output can be produced. */
+    return false;
+  } else if (! opts->vars || opts->vars->size() == 0) {
+    /* Without any output variables, no output can be produced. */
     return false;
   }
 
-  INSTR_VARS_OPTIONS *opts = (INSTR_VARS_OPTIONS *) data;
+  /* Use the specified output separator, if it is defined. */
   if (opts->sep) {
     sep = opts->sep;
   }
@@ -64,7 +69,7 @@ bool instr_vars(const PARAMS &p, const VARS &v, void *data) {
     cout << endl;
   }
 
-  /* Print the renal module outputs. */
+  /* Print the specified output variables. */
   cout.setf(ios::left);
   cout << v.t;
   for (int i = 0; i < (int) opts->vars->size(); i++) {
