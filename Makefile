@@ -27,7 +27,7 @@ INSTRS = $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/instr_*.cpp))
 FILTS = $(patsubst $(SRC_DIR)/%.cpp,%,$(wildcard $(SRC_DIR)/filter_*.cpp))
 
 # The Guyton model depends on the following C++ modules.
-MAIN_MODS = $(CORE) $(MAIN) debug read_params read_vars read_exp
+MAIN_MODS = $(CORE) $(MAIN) guyton92_step debug read_params read_vars read_exp
 # Automatically add the additional modules.
 MAIN_MODS += $(EXPS) $(INSTRS) $(FILTS)
 # Define variables for the .cpp and .h files.

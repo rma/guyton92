@@ -14,6 +14,7 @@ This directory contains the following files:
 
   src/                  The directory containing the source of the model.
     guyton92            The main module of the Guyton 1992 model.
+    guyton92_step       A module for simulating time-steps of the model.
     params              A module that defines a struct of all model parameters.
     read_params         A module for reading parameter values from files.
     read_vars           A module for reading state variable values from files.
