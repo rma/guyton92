@@ -1,0 +1,38 @@
+\label{exp:exercise}
+
+\subsection{Key variables}
+\begin{table}[!h]
+  \centering
+  \begin{tabularx}{\textwidth}{lXrr}
+    \toprule
+    Variable & Description & Units (1972) & Units (1992) \\
+    \midrule
+    VUD & Urinary output & mL/min & \textbf{L/min} \\
+    PVO & Muscle venous PO$_2$ & mmHg & mmHg \\
+    PMO & Muscle tissue PO$_2$ & mmHg & mmHg \\
+    PA & Mean arterial pressure & mmHg & mmHg \\
+    AUP & Sympathetic stimulation & (ratio) & \textbf{Missing} \\
+    QLO & Cardiac output & L/min & L/min \\
+    BFM & Muscle blood flow & L/min & L/min \\
+    MMO & Oxygen usage by muscle cells & mol/min & \textbf{L/min} \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Key variables for the experiment. Note that the units of VUD and MMO have changed in the 1992 version of the model and that AUP no longer exists. This must be taken into account when comparing the model output to the data in \autoref{tbl:exercise}.}
+\end{table}
+
+\subsection{Simulation parameters}
+\begin{enumerate}
+  \item After 30 seconds, the exercise parameter was changed to 60 times its normal value (EXC = 60), corresponding to a whole body metabolism increase of approximately 15 times. At the same time, the time constant for the local vascular response to metabolic activity was reduced 40-fold (A4K = 0.025), the damping factor Z was increased five-fold (Z = 5), damping factors Z5, Z6, Z8 were changed (Z5 = 1, Z6 = 10, Z8 = 3), and I3 was set to 0 to prevent long integration steps (I3 = 0).
+  \item After 2 minutes, the normal value of EXC was restored (EXC = 1).
+  \item After 5 minutes, the normal value of I3 was restored (I3 = 20).
+  \item Total simulation time: 9 minutes (540 seconds).
+\end{enumerate}
+
+\textbf{NOTE:} In the 1992 Guyton model the normal value of A4K is 0.1, and so the change to 0.025 represents a four-fold decrease, not a 40-fold decrease.
+
+\subsection{General observations}
+The behaviour of the (1972) model is shown in \autoref{tbl:exercise}.
+
+At the onset of exercise, cardiac output and muscle blood flow increased considerably and within seconds.  Urinary output fell to its obligatory level while arterial pressure rose moderately.  Muscle cell and venous PO$_2$ fell rapidly. Muscle metabolic activity showed an instantaneous increase, but then decreased considerably because of the development of a metabolic deficit in the muscles.
+
+When exercise was stopped, muscle metabolic activity fell to below normal, but cardiac output, muscle blood flow, and arterial pressure remained elevated for a while as the person was repaying his oxygen debt.

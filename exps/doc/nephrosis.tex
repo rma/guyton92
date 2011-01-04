@@ -1,0 +1,33 @@
+\label{exp:nephrosis}
+
+\subsection{Key variables}
+\begin{table}[!h]
+  \centering
+  \begin{tabularx}{\textwidth}{lXrr}
+    \toprule
+    Variable & Description & Units (1972) & Units (1992) \\
+    \midrule
+    VUD & Urinary output & mL/min & \textbf{L/min} \\
+    VG & Interstitial gel volume & L & \textbf{Missing} \\
+    VTS & Interstitial fluid volume & L & L \\
+    VP & Plasma volume & L & L \\
+    PRP & Total plasma protein & g & g \\
+    PIF & Interstitial fluid pressure & mmHg & mmHg \\
+    PA & Mean arterial pressure & mmHg & mmHg \\
+    QLO & Cardiac output & L/min & L/min \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Key variables for the experiment. Note that the units of VUD have changed in the 1992 version of the model and that VG no longer exists. This must be taken into account when comparing the model output to the data in \autoref{tbl:nephrosis}.}
+\end{table}
+
+\subsection{Simulation parameters}
+\begin{enumerate}
+  \item After 1 hour, plasma protein loss was increased seven-fold (DPO = 0.050 g/min).
+  \item After 4.5 days, plasma protein loss was decreased to three-fold normal (DPO = 0.021 g/min).
+  \item Total simulation time: 5.5 days (132 hours).
+\end{enumerate}
+
+\subsection{General observations}
+The behaviour of the (1972) model is shown in \autoref{tbl:nephrosis}.
+
+The initial decrease in plasma protein initiated slight decreases in both arterial pressure and cardiac output, and a marked decrease in urinary output to obligatory levels. The fluid thus retained caused swelling of the interstitial gel. The volume of free interstitial fluid (VTS - VG) remained relatively stable until the interstitial fluid pressure rose into the positive range. Then, marked edema occurred with a sharp drop in cardiac output. When the rate of renal loss of protein was increased to the point where the liver could increase the plasma protein level, the edema was relieved with high diuresis and increased cardiac output.

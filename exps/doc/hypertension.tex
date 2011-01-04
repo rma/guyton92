@@ -1,0 +1,38 @@
+\label{exp:hypertension}
+
+\subsection{Key variables}
+\begin{table}[!h]
+  \centering
+  \begin{tabularx}{\textwidth}{lXrr}
+    \toprule
+    Variable & Description & Units (1972) & Units (1992) \\
+    \midrule
+    VEC & Extracellular fluid volume & L & L \\
+    VB & Blood volume & L & L \\
+    AU & Autonomic system activity & (ratio) & (ratio) \\
+    QLO & Cardiac output & L/min & L/min \\
+    RTP & Total peripheral resistance & mmHg min/L & mmHg min/L \\
+    PA & Mean arterial pressure & mmHg & mmHg \\
+    HR & Heart rate & beats/min & beats/min \\
+    ANC & Plasma angiotensin concentration & mEq/L & \textbf{(ratio)} \\
+    VUD & Urinary output & mL/min & \textbf{L/min} \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Key variables for the experiment. Note that the units of ANC and VUD have changed in the 1992 version of the model. This must be taken into account when comparing the model output to the data in \autoref{tbl:hypertension}.}
+\end{table}
+
+\subsection{Simulation parameters}
+\begin{enumerate}
+  \item After 2 hours, the renal mass was reduced to 30\% of normal (REK = 0.3).
+  \item After 4 days, the salt intake was increase five-fold (NID = 0.5).
+  \item Total simulation time: 8 days (192 hours).
+\end{enumerate}
+
+\subsection{General observations}
+The behaviour of the (1972) model is shown in \autoref{tbl:hypertension}.
+
+The initial decrease in renal mass had only a slight effect on the key variables, with the exception of a slight decrease in cardiac output and simultaneous increase in total peripheral resistance. The arterial pressure was elevated only a small amount.
+
+Increasing the salt load caused more dramatic effects. The extracellular volume and blood volume rose, the cardiac output increased considerably and then stabilized, while the total peripheral resistance fell. Initially, the rise in cardiac output with unchanged peripheral resistance increased the arterial pressure.
+
+After 120 hours, the cardiac output stabilized, while the peripheral resistance continued to rise. The arterial pressure continued to increase, demonstrating that the increase in total peripheral resistance, not cardiac output, was responsible for the longer-term increases in arterial pressure.

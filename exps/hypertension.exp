@@ -1,0 +1,39 @@
+# Hypertension in a salt loaded, renal deficient patient.
+
+o= vec vb au qlo rtp pa hr anc vud
+
+# The start of the experiment
+t= 10070
+
+t= 10190
+rek 0.3
+
+t= 10250
+t= 10430
+t= 10790
+t= 11150
+t= 11510
+t= 11870
+t= 12230
+t= 12590
+t= 12950
+t= 13310
+t= 13670
+t= 14390
+
+t= 15830
+nid 0.5
+
+t= 15890
+t= 16190
+t= 16550
+t= 16910
+t= 17270
+t= 17630
+t= 18350
+t= 19070
+t= 19790
+t= 20510
+
+# The end of the experiment (8 days)
+t= 21590

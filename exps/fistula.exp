@@ -1,0 +1,15 @@
+# Atrioventricular fistula.
+
+o= vec vb au qlo rtp pa hr anc vud
+
+# The start of the experiment
+t= 10070
+
+t= 10190
+fis 0.05
+
+t= 15830
+fis 0
+
+# The end of the experiment (9 days)
+t= 23030

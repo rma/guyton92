@@ -1,0 +1,20 @@
+This directory contains experiments that explore the behaviour of the Guyton
+model under a range of physiological conditions. These experiments were
+provided by Ronald J. White, who also provided the original Fortran code for
+the Guyton model.
+
+The experiments are defined in the following files:
+
+  hypertension.exp
+  nephrosis.exp
+  exercise.exp
+  fistula.exp
+
+To run one of these experiments, give the name of the experiment file as an
+argument to the model binary. For example:
+
+  ./build/guyton92 ./exps/hypertension.exp
+
+Each experiment is described in the accompanying documentation:
+
+  doc/experiments.pdf

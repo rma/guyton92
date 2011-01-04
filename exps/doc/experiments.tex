@@ -1,0 +1,48 @@
+\documentclass{scrartcl}
+
+  % Turn references and citations into links.
+  \usepackage[pdftex,pdfpagelabels]{hyperref}
+
+  % Provides a more flexible tabular environment.
+  \usepackage{tabularx}
+
+  % Provides better horizontal rules for tables.
+  \usepackage{booktabs}
+
+  % Set the citation and referencing styles.
+  \usepackage[square,numbers,sort&compress]{natbib}
+  \bibliographystyle{plainrgmc}
+
+  % Set the spacing for table rows where a parameter is changed.
+  \newlength{\paramchangeskip}
+  \setlength{\paramchangeskip}{0.5em}
+
+\begin{document}
+
+  \title{Example simulations for the Guyton model}
+  \author{Rob Moss}
+
+  \maketitle
+
+  \section{Introduction}
+  \input{introduction}
+
+  \section{Hypertension in a salt loaded, renal deficient patient}
+  \input{hypertension}
+
+  \section{Nephrosis due to protein loss by plasma}
+  \input{nephrosis}
+
+  \section{Severe muscle exercise}
+  \input{exercise}
+
+  \section{Atrioventricular fistula}
+  \input{fistula}
+
+  \section{Simulation data}
+  \input{tables}
+
+  \clearpage
+  \bibliography{jabref}
+
+\end{document}

@@ -1,0 +1,24 @@
+# Severe muscle exercise.
+
+o= vud pvo pmo pa aup qlo bfm mmo
+
+# The start of the experiment
+t= 10070
+
+t= 10070.5
+exc 60
+a4k 0.025
+z 5
+z5 1
+z6 10
+z8 3
+i3 0
+
+t= 10072
+exc 1
+
+t= 10075
+i3 20
+
+# The end of the experiment (9 mins)
+t= 10079

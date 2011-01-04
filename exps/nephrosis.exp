@@ -1,0 +1,15 @@
+# Nephrosis due to protein loss by plasma.
+
+o= vud vg vts vp prp pif pa qlo
+
+# The start of the experiment
+t= 10070
+
+t= 10130
+dpo 0.050
+
+t= 16550
+dpo 0.021
+
+# The end of the experiment (5.5 days)
+t= 17990

@@ -1,0 +1,36 @@
+\label{exp:fistula}
+
+\subsection{Key variables}
+\begin{table}[!h]
+  \centering
+  \begin{tabularx}{\textwidth}{lXrr}
+    \toprule
+    Variable & Description & Units (1972) & Units (1992) \\
+    \midrule
+    VEC & Extracellular fluid volume & L & L \\
+    VB & Blood volume & L & L \\
+    AU & Autonomic system activity & (ratio) & (ratio) \\
+    QLO & Cardiac output & L/min & L/min \\
+    RTP & Total peripheral resistance & mmHg min/L & mmHg min/L \\
+    PA & Mean arterial pressure & mmHg & mmHg \\
+    HR & Heart rate & beats/min & beats/min \\
+    ANC & Plasma angiotensin concentration & mEq/L & \textbf{(ratio)} \\
+    VUD & Urinary output & mL/min & \textbf{L/min} \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Key variables for the experiment. Note that the units of ANC and VUD have changed in the 1992 version of the model. This must be taken into account when comparing the model output to the data in \autoref{tbl:fistula}.}
+\end{table}
+
+\subsection{Simulation parameters}
+\begin{enumerate}
+  \item After 2 hours, a fistula was created to double cardiac output (FIS = 0.05).
+  \item After 4 days, the fistula was closed (FIS = 0).
+  \item Total simulation time: 9 days (216 hours).
+\end{enumerate}
+
+\subsection{General observations}
+The behaviour of the (1972) model is shown in \autoref{tbl:fistula}.
+
+Opening the fistula caused an immediate dramatic change in cardiac output, total peripheral resistance, and heart rate. Urinary output decreased to obligatory levels. As the body adapted, extracellular fluid volume and blood volume increased to compensate for the fistula with the result that after a few days arterial pressure, heart rate, and urinary output were near normal levels, while cardiac output doubled and peripheral resistance halved.
+
+When the fistula was closed, dramatic effects again occurred with rapid decrease in cardiac output, rapid increase in peripheral resistance, moderate increase in arterial pressure, and moderate decrease in heart rate. Marked diuresis reduced extracellular fluid volume and blood volume to normal or slightly below. After several days, the patient was nearly normal.
