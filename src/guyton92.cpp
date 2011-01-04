@@ -11,6 +11,7 @@
  * of renal function to replace the renal block of the Guyton 1992 model.
  */
 
+#include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <queue>

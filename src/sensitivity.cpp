@@ -6,6 +6,8 @@
  * greatly from that observed when simulating the entire Guyton model.
  */
 
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <fstream>
 #include <string>

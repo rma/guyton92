@@ -1,4 +1,5 @@
 #include <queue>
+#include <string>
 
 /* Collect parameters into a single struct. */
 #include "params.h"
