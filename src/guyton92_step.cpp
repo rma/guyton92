@@ -101,8 +101,11 @@ void guyton92_step(PARAMS &p, VARS &v, Experiment *e) {
   module_special(p, v);
   module_capdyn(p, v);
   module_puldyn(p, v);
-  module_renal(p, v);  /* Run the replacement renal module in parallel */
-  module_kidney(p, v); /* with the original module, to make comparisons. */
+  if (p.newkidney) {
+    module_kidney(p, v); /* Run the replacement renal module. */
+  } else {
+    module_renal(p, v); /* Run the original renal module. */
+  }
   module_electro(p, v);
 
   /* Perform any experiments that have been defined. */
