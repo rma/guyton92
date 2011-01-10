@@ -81,6 +81,7 @@ int main(int argc, char *argv[]) {
   double tend = 60 * 24 * 7 * 4;
   if (e) {
     tend = e->stop_at();
+    e->write_exp(cout);
   }
 
   /* Filter the notifications. */
