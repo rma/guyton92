@@ -19,6 +19,7 @@ typedef std::queue<PARAM_CHANGES> param_changes;
 class Experiment {
 private:
   param_changes changes;
+  param_changes *orig;
   PARAMS &params;
   std::string *err;
   std::vector<double> times;
@@ -32,4 +33,5 @@ public:
   const std::string* errmsg();
   const double* output_times();
   const std::vector<std::string>& output_vars() const;
+  void write_exp(std::ostream &out);
 };

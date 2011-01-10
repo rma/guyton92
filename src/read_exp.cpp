@@ -7,6 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <istream>
+#include <ostream>
 #include <string>
 #include <sstream>
 #include <cstring>
@@ -95,6 +96,8 @@ Experiment::Experiment(PARAMS &p, std::istream &input) : params(p) {
         str >> varname;
         outputs.push_back(varname);
       }
+    } else if (! pname.compare("end-exp")) {
+      break;
     } else {
       /* Read the parameter value. */
       double pval;
@@ -118,6 +121,8 @@ Experiment::Experiment(PARAMS &p, std::istream &input) : params(p) {
   /* Add the current (and final) set of scheduled changes to the queue. */
   changes.push(*cs);
   delete cs;
+
+  orig = new queue<PARAM_CHANGES>(changes);
 }
 
 /**
@@ -129,6 +134,8 @@ Experiment::~Experiment() {
   if (err) {
     delete err;
   }
+
+  delete orig;
 
   /* Each parameter change includes the parameter name, which was manually
      allocated in the constructor and therefore needs to be freed. */
@@ -214,4 +221,44 @@ const double* Experiment::output_times() {
 
 const std::vector<std::string>& Experiment::output_vars() const {
   return outputs;
+}
+
+/**
+ * Writes the experiment definition to an output stream.
+ *
+ * @param out The output stream to which the experiment definition is written.
+ */
+void Experiment::write_exp(std::ostream &out) {
+  /* Print the output names. */
+  out << "o=";
+  int names = (int) outputs.size();
+  for (int n = 0; n < names; n++) {
+    out << " " << outputs[n];
+  }
+  out << endl;
+
+  /* Print the output times and parameter changes. */
+  param_changes cs(*orig);
+  int size = (int) cs.size();
+  for (int i = 0; i < size; i++) {
+    PARAM_CHANGES cx = cs.front();
+    cs.pop();
+
+    /* Only print "t= 0" if this line was actually included in the input.
+       This is only the case if the first output time (times[0]) is zero. */
+    if (i > 0 || times[0] == 0) {
+      out << "t= " << cx.at_time << endl;
+    }
+
+    /* Print the parameter changes (if any). */
+    int count = (int) cx.changes.size();
+    for (int j = 0; j < count; j++) {
+      PARAM_CHANGE c = cx.changes[j];
+      out << c.name << " " << c.value << endl;
+    }
+  }
+
+  /* Finish with the end-exp marker, so that more data can be appended to
+     the output without preventing the experiment parser from working. */
+  out << "end-exp" << endl;
 }
