@@ -54,8 +54,12 @@ void module_kidney(const PARAMS &p, VARS &v) {
   solve_moore94_model(p, v);
 
   /* A linear regression was used to estimate MDFLW from Qalh. */
-  v.mdflw = -3374.8165 + 1978.1256 * v.Qalh \
-    - 386.4192 * v.Qalh * v.Qalh + 25.1648 * v.Qalh * v.Qalh * v.Qalh;
+  if (p.glmcubic) {
+    v.mdflw = -3374.8165 + 1978.1256 * v.Qalh
+      - 386.4192 * v.Qalh * v.Qalh + 25.1648 * v.Qalh * v.Qalh * v.Qalh;
+  } else {
+    v.mdflw = - 0.3750828 + 0.2689998 * v.Qalh;
+  }
 
    /* Scale values to the human body (~2x10^6 nephrons) so that the mean RBF
       is equivalent to the mean RBF as calculated by the original module. */
