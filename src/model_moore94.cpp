@@ -255,9 +255,13 @@ void solve_moore94_model(const PARAMS &p, VARS &v) {
     prev_dRtgf = v.dRtgf;
 
     /* Calculate the new predictions for dRma, dRmd and Ra. */
-    v.dRma = p.Ga * v.dRtgf * (p.Rb + v.dRmd) / (p.Rg + p.Re);
-    v.dRmd = p.Gd * (v.Pas / p.Paso - 1.0) *
-             (p.Rb + v.dRma + v.dRtgf + p.Rg + p.Re);
+    if (p.moore94amyo) {
+        v.dRma = p.Ga * v.dRtgf * (p.Rb + v.dRmd) / (p.Rg + p.Re);
+    }
+    if (p.moore94dmyo) {
+        v.dRmd = p.Gd * (v.Pas / p.Paso - 1.0) *
+                 (p.Rb + v.dRma + v.dRtgf + p.Rg + p.Re);
+    }
     v.Ra = p.Rb + v.dRma + v.dRmd + v.dRtgf;
 
     /* Solve the model for the new values of dRtgf, dRma, dRmd and Ra. */
