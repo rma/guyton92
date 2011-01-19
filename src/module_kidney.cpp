@@ -58,7 +58,9 @@ void module_kidney(const PARAMS &p, VARS &v) {
     v.mdflw = -3374.8165 + 1978.1256 * v.Qalh
       - 386.4192 * v.Qalh * v.Qalh + 25.1648 * v.Qalh * v.Qalh * v.Qalh;
   } else {
-    v.mdflw = - 0.3750828 + 0.2689998 * v.Qalh;
+    /* This scaling factor converts Qalh to mdflw, so that the mean of Qalh
+       (5.087248) corresponds to the mean of mdflw (1.001937). */
+    v.mdflw = v.Qalh / 5.077413;
   }
 
    /* Scale values to the human body (~2x10^6 nephrons) so that the mean RBF
