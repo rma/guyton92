@@ -64,7 +64,7 @@ void module_circdyn(const PARAMS &p, VARS &v) {
   /* The Korner effect
      See: Jennings GL, Nelson L, Esler MD, Leonard P, Korner PI, 1984.
           Effects of changes in physical activity on blood pressure and
-          sympathetic tone. J Hypertens Suppl 2, S139-141.*/
+          sympathetic tone. J Hypertens Suppl 2, S139-141. */
   v.pamkrn = 1;
   if (v.korner > 0) {
     v.pamk = v.pamk + ((v.pa / 100 - 1) * p.korgn + 1 - v.pamk) / \

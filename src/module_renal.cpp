@@ -289,7 +289,7 @@ void module_renal(const PARAMS &p, VARS &v) {
   /* The effect on potassium. */
   v.rfabk = (v.rfabd - 1) * p.rfabkm;
 
-  /* Sodium and potassium handling. */
+  /* Sodium handling. */
   /* Na distal delivery. */
   v.dtnai = v.mdflw * v.cna * .0061619;
   v.dtnara = v.amna * v.rfabd * p.dtnar / p.diuret * ((v.adhmk - 1) * p.ahmnar + 1);
@@ -297,10 +297,15 @@ void module_renal(const PARAMS &p, VARS &v) {
   if (v.dtnara < p.dtnarl) {
     v.dtnara = p.dtnarl;
   }
+  /* The effect of angiontensin on distal tubule sodium reabsorption. */
+  v.dtnang = ((v.anm - 1) * p.anmnam + 1) * 0.1;
+  if (v.dtnang < 0) {
+    v.dtnang = 0;
+  }
 
   /* Potassium handling. */
   v.dtki = v.dtnai * v.cke / v.cna;
-
+  /* The effect of angiotensin on distal tubule sodium. */
   v.anmke = (v.anm - 1) * p.anmkem + 1;
   if (v.anmke < p.anmkel) {
     v.anmke = p.anmkel;
@@ -309,14 +314,8 @@ void module_renal(const PARAMS &p, VARS &v) {
   if (v.mdflk < 0.1) {
     v.mdflk = 0.1;
   }
-
   /* Potassium secretion. */
   v.dtksc = pow(v.cke / 4.4, p.ckeex) * v.amk * 0.08 * v.mdflk / v.anmke;
-  /* The effect of angiontensin on distal tubule sodium reabsorption. */
-  v.dtnang = ((v.anm - 1) * p.anmnam + 1) * 0.1;
-  if (v.dtnang < 0) {
-    v.dtnang = 0;
-  }
 
   /* The loop for solving urinary excretion. */
   do {
