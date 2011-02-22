@@ -112,7 +112,7 @@ fi
 
 RE_VAR="${V_OR_P}\.([a-zA-Z0-9_])+"
 RE_LHS='^[[:space:]]+'${RE_VAR}
-RE_RHS='=.*'${RE_VAR}
+RE_RHS='(=.*'${RE_VAR}')|(^([^=]*)'${RE_VAR}'([^=])*$)'
 
 if [ "${SHOWEQNS}" = "true" ]; then
   # Show all matching lines.
