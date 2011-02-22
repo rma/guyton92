@@ -142,7 +142,7 @@ void init_modules() {
   modules.insert(pair<string,modulefn>("capdyn", module_capdyn));
   modules.insert(pair<string,modulefn>("puldyn", module_puldyn));
   modules.insert(pair<string,modulefn>("electro", module_electro));
-  modules.insert(pair<string,modulefn>("kidney", module_kidney));
+  modules.insert(pair<string,modulefn>("kidney", (modulefn) module_kidney));
 }
 
 /**

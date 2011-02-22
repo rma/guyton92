@@ -1,1 +1,1 @@
-void module_kidney(const PARAMS &p, VARS &v);
+void module_kidney(PARAMS &p, VARS &v);
