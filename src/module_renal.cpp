@@ -305,7 +305,7 @@ void module_renal(const PARAMS &p, VARS &v) {
 
   /* Potassium handling. */
   v.dtki = v.dtnai * v.cke / v.cna;
-  /* The effect of angiotensin on distal tubule sodium. */
+  /* The effect of angiotensin on distal tubule potassium. */
   v.anmke = (v.anm - 1) * p.anmkem + 1;
   if (v.anmke < p.anmkel) {
     v.anmke = p.anmkel;
