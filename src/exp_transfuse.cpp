@@ -38,6 +38,13 @@
 void exp_transfuse(PARAMS &p, VARS &v) {
   if (p.timetr > 0) {
     double pcnt = 0.01 * v.i;
+
+#ifdef UTTAMSINGH2
+    double pcnt_p = p.trnsfs * pcnt;
+    v.vp = v.vp + pcnt_p;
+    v.nae = v.nae + pcnt_p * 4349.76;
+#endif
+#ifndef UTTAMSINGH2
     double pcnt_p = p.trnsfs * pcnt * (100 - p.hmtrns);
     double pcnt_c = p.trnsfs * pcnt * p.hmtrns;
 
@@ -48,6 +55,7 @@ void exp_transfuse(PARAMS &p, VARS &v) {
     v.ke = v.ke + pcnt_p * v.cke;
     v.ki = v.ki + pcnt_c * v.cki;
     v.prp = v.prp + pcnt_p * v.cpp;
+#endif
 
     v.trnstm = v.trnstm + v.i;
     if (v.trnstm > p.timetr) {

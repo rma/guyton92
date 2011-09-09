@@ -30,6 +30,11 @@ void module_electro(const PARAMS &p, VARS &v) {
 
   /* Water balance. */
   v.vtw = v.vtw + (v.tvd - v.vud) * v.i;
+#ifdef UTTAMSINGH1
+  if (v.t < 40320.0 && (v.t + v.i) >= 40320.0) {
+    v.vtw += 1.0;
+  }
+#endif
 
   v.i15 = 0;
   do {

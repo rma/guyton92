@@ -1,0 +1,79 @@
+# Effect of a hypertonic saline load (section 3.2)
+# Uttamsingh et al., Med Biol Eng Comput 23(6):525-35, 1985.
+
+# Use the original renal module.
+newkidney 0
+# Transfuse for 65 minutes.
+# trnstm 65
+# Transfuse at 10 mL/min (ie, 0.01 L/min).
+trnsfs 0.01
+# Don't transfuse any red blood cells.
+hmtrns 0
+
+o= vud
+
+# The start of the experiment (t = 4 weeks), reporting every 5 minutes
+t= 40315
+t= 40320
+timetr 1
+t= 40325
+t= 40330
+t= 40335
+t= 40340
+t= 40345
+t= 40350
+t= 40355
+t= 40360
+t= 40365
+t= 40370
+t= 40375
+t= 40380
+t= 40385
+t= 40390
+t= 40395
+t= 40400
+t= 40405
+t= 40410
+t= 40415
+t= 40420
+t= 40425
+t= 40430
+t= 40435
+t= 40440
+t= 40445
+t= 40450
+t= 40455
+t= 40460
+t= 40465
+t= 40470
+t= 40475
+t= 40480
+t= 40485
+t= 40490
+t= 40495
+t= 40500
+t= 40505
+t= 40510
+t= 40515
+t= 40520
+t= 40525
+t= 40530
+t= 40535
+t= 40540
+t= 40545
+t= 40550
+t= 40555
+t= 40560
+t= 40565
+t= 40570
+t= 40575
+t= 40580
+t= 40585
+t= 40590
+t= 40595
+t= 40600
+t= 40605
+t= 40610
+t= 40615
+t= 40620
+# The end of the experiment (t = 4 weeks and 5 hours)
