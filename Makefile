@@ -62,8 +62,15 @@ ifneq (,$(findstring ERROR,$(CXX)))
     $(error ERROR: unable to find g++ or clang++)
 endif
 
+# Allow the echo command to be over-ridden for silent compilation.
+ECHO := echo
+
+# The experiment to perform (the default is no experiment).
+EXPERIMENT := VANILLA
+
 # The flags for the C++ compiler: no optimisations and lots of warnings.
-CXXFLAGS := -O0 -std=c++98 -Wall -Wextra -Wno-unused-parameter
+WARNINGS := -Wall -Wextra -Wno-unused-parameter
+CXXFLAGS := -O0 -std=c++98 $(WARNINGS) -D $(EXPERIMENT)
 
 # Search for doxygen. Return "ERROR" if it does not exist.
 DOXYGEN := $(shell which doxygen || echo ERROR)
@@ -85,13 +92,13 @@ model: $(MAINBIN)
 
 # Build the Guyton model.
 $(MAINBIN): $(MAIN_SRC)
-	@echo "  [Compiling]"
+	@$(ECHO) "  [Compiling]"
 	@if [ ! -d $(BUILD_DIR) ]; then mkdir $(BUILD_DIR); fi
 	@$(CXX) $(CXXFLAGS) -o $@ $(MAIN_CPP)
 
 # Build the sensitivity analyser.
 $(SENSBIN): $(SENS_SRC)
-	@echo "  [Compiling]"
+	@$(ECHO) "  [Compiling]"
 	@if [ ! -d $(BUILD_DIR) ]; then mkdir $(BUILD_DIR); fi
 	@$(CXX) $(CXXFLAGS) -o $@ $(SENS_CPP)
 
@@ -100,7 +107,7 @@ docs: $(DOC_DIR)/index.html
 
 # The documentation depends on the source and doxygen configuration file.
 $(DOC_DIR)/index.html: $(ALL_SRC) $(DOXY_FILE) $(MAIN_PAGE)
-	@echo "  [Documentation]"
+	@$(ECHO) "  [Documentation]"
 	@if [ ! -d $(DOC_DIR) ]; then mkdir $(DOC_DIR); fi
 	@cd $(SRC_DIR) && $(DOXYGEN)
 
