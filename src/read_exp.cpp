@@ -174,7 +174,7 @@ const string* Experiment::errmsg() {
 void Experiment::update(double time) {
   /* Check if it's time to apply the next set of scheduled changes. */
   PARAM_CHANGES cs = changes.front();
-  if (cs.at_time >= time) {
+  if (cs.at_time > time) {
     return;
   }
 
