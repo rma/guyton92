@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
     {"no-filter", no_argument,       0, 'a'},
     {"outputs",   required_argument, 0, 'o'},
     {"help",      no_argument,       0, 'h'},
-    {NULL, NULL, NULL, NULL}
+    {NULL, 0, 0, 0}
     };
   int option_index = 0;
   int c;
