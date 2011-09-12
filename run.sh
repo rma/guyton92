@@ -28,3 +28,5 @@ for EXP_FILE in "$@"; do
     make model EXPERIMENT="${EXP_NAME}" ECHO=":"
     ./build/guyton92 ${EXP_FILE} | awk 'i{print}/end-exp/{i++}' > ${OUT_FILE}
 done
+
+make clobber
