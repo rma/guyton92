@@ -202,7 +202,7 @@ double Experiment::stop_at() {
 
 /**
  * Returns the times at which the model outputs should be recorded. The array
- * is terminated by the value DBL_MAX,
+ * is terminated by the value DBL_MAX.
  */
 const double* Experiment::output_times() {
   /* Allocate space for each time and the terminal value. */

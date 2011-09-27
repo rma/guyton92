@@ -1,5 +1,11 @@
 #include <queue>
 #include <string>
+#include <iostream>
+#include <fstream>
+#include <cfloat>
+#include <cstdio>
+
+using namespace std;
 
 /* Collect parameters into a single struct. */
 #include "params.h"
@@ -60,7 +66,7 @@
  * @param[in] v      The struct of state variables.
  * @param[in] e      The chosen experiment (if any) to run.
  */
-void guyton92_step(PARAMS &p, VARS &v, Experiment *e) {
+extern "C" void guyton92_step(PARAMS &p, VARS &v, Experiment *e) {
   if (e) {
     e->update(v.t);
   }
@@ -114,4 +120,146 @@ void guyton92_step(PARAMS &p, VARS &v, Experiment *e) {
 
   /* Notify all registered instruments of the current model state. */
   notify_instruments(p, v);
+}
+
+/**
+ * Creates a new set of parameters.
+ */
+extern "C" PARAMS * new_params() {
+  PARAMS *p = new PARAMS;
+  PARAMS_INIT ((*p));
+  return p;
+}
+
+/**
+ * Creates a new set of variables.
+ */
+extern "C" VARS * new_vars() {
+  VARS *v = new VARS;
+  VARS_INIT ((*v));
+  return v;
+}
+
+/**
+ * Deletes an existing set of parameters.
+ */
+extern "C" void del_params(PARAMS * p) {
+  delete p;
+}
+
+/**
+ * Deletes an existing set of variables.
+ */
+extern "C" void del_vars(VARS * v) {
+  delete v;
+}
+
+/**
+ * Opens an existing file for (textual) input.
+ */
+extern "C" istream * exp_file_stream(const char* filename) {
+  ifstream* input = new ifstream();
+  input->open(filename);
+  if (input->fail()) {
+    return NULL;
+  } else {
+    return input;
+  }
+}
+
+/**
+ * Creates a new experiment, whose definition is parsed from the input stream.
+ */
+extern "C" Experiment * exp_new(PARAMS &p, istream &input) {
+  return new Experiment(p, input);
+}
+
+/**
+ * Deletes an existing experiment.
+ */
+extern "C" void exp_delete(Experiment *e) {
+  delete e;
+}
+
+/**
+ * Check whether the experiment encountered a parsing error.
+ */
+extern "C" bool exp_failed(Experiment *e) {
+  if (e) {
+    return e->failed();
+  } else {
+    return true;
+  }
+}
+
+/**
+ * Returns a message that describes the error in the experiment definition.
+ */
+extern "C" const char * exp_errmsg(Experiment *e) {
+  if (e) {
+    const string *errstr = e->errmsg();
+    if (errstr) {
+      return errstr->c_str();
+    } else {
+      return NULL;
+    }
+  } else {
+    return NULL;
+  }
+}
+
+/**
+ * Returns the time at which the experiment should be stopped (mins).
+ */
+extern "C" double exp_stop_at(Experiment *e) {
+  if (e) {
+    return e->stop_at();
+  } else {
+    return -1.0;
+  }
+}
+
+/**
+ * Returns the number of variables whose values should be logged.
+ */
+extern "C" int exp_output_count(Experiment *e) {
+  if (e) {
+    return e->output_vars().size();
+  } else {
+    return -1;
+  }
+}
+
+/**
+ * Returns the name of a variable whose value should be logged.
+ */
+extern "C" const char * exp_output_var(Experiment *e, unsigned int i) {
+  if (e) {
+    if (i < e->output_vars().size()) {
+      return e->output_vars()[i].c_str();
+    } else {
+      return NULL;
+    }
+  } else {
+    return NULL;
+  }
+}
+
+/**
+ * Returns the times at which the model outputs should be recorded. The array
+ * is terminated by the sentinel value \c exp_sentinel_time().
+ */
+extern "C" const double * exp_output_times(Experiment *e) {
+  if (e) {
+    return e->output_times();
+  } else {
+    return NULL;
+  }
+}
+
+/**
+ * The sentinel value for the output times returned by \c exp_output_times().
+ */
+extern "C" double exp_sentinel_time() {
+  return DBL_MAX;
 }
