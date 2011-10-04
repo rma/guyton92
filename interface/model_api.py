@@ -2,13 +2,17 @@ import os
 
 from model_defn import *
 
-def load_library(libname = "libg92.so"):
+def this_dir(*rest):
     try:
         path = os.path.abspath(__file__)
         dir_path = os.path.dirname(path)
     except NameError:
         dir_path = os.path.abspath(os.getcwd())
-    lib_path = os.path.join(dir_path, "..", "build", libname)
+    full_path = os.path.join(dir_path, *rest)
+    return os.path.normpath(full_path)
+
+def load_library(libname = "libg92.so"):
+    lib_path = this_dir("..", "build", libname)
     return CDLL(lib_path)
 
 def struct_fields(struct):
@@ -166,6 +170,7 @@ class ModelExperiment:
         self.api.step(self.params, v, self.exp)
 
 def run_experiment(api, exp_file="../exps/hypertension.exp"):
+    exp_file = this_dir(exp_file)
     p = api.new_params()
     cp = p.contents
     cp.newkidney = 0
