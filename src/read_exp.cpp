@@ -173,6 +173,10 @@ const string* Experiment::errmsg() {
  */
 void Experiment::update(double time) {
   /* Check if it's time to apply the next set of scheduled changes. */
+  if (changes.empty()) {
+    return;
+  }
+
   PARAM_CHANGES cs = changes.front();
   if (cs.at_time > time) {
     return;
@@ -197,6 +201,9 @@ double Experiment::stop_at() {
       definition. The only purpose of this time is to define the end of the
       simulation. It would be meaningless to define any parameter changes for
       this time. */
+  if (changes.empty()) {
+    return 0.0;
+  }
   return changes.back().at_time;
 }
 
