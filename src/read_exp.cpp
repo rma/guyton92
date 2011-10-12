@@ -206,8 +206,8 @@ double Experiment::stop_at() {
  */
 const double* Experiment::output_times() {
   /* Allocate space for each time and the terminal value. */
-  int size = (int) times.size() + 1;
-  double* output_times = new double[size];
+  int size = (int) times.size();
+  double* output_times = new double[size + 1];
 
   /* Record each output time. */
   for (int i = 0; i < size; i++) {
@@ -215,7 +215,7 @@ const double* Experiment::output_times() {
   }
 
   /* Terminate the array with DBL_MAX and then return the array. */
-  output_times[size - 1] = DBL_MAX;
+  output_times[size] = DBL_MAX;
   return output_times;
 }
 
@@ -246,7 +246,7 @@ void Experiment::write_exp(std::ostream &out) {
 
     /* Only print "t= 0" if this line was actually included in the input.
        This is only the case if the first output time (times[0]) is zero. */
-    if (i > 0 || times[0] == 0) {
+    if (i > 0 || (times.size() > 0 && times[0] == 0)) {
       out << "t= " << cx.at_time << endl;
     }
 
