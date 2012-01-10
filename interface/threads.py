@@ -12,11 +12,14 @@ class StoppableThread(threading.Thread):
             self.stop_event.set()
             # block calling thread until thread really has terminated
             self.join()
+            # reset the thread so that it can be restarted
+            self.stop_event.clear()
+            threading.Thread.__init__(self)
 
     def run(self):
         """Start an infinite loop of calls to self.run_body()."""
         while self.stop_event.is_set() == False:
-            run_body()
+            self.run_body()
 
     def run_body(self):
         """Override this method in your subclass."""

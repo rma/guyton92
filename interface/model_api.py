@@ -31,6 +31,12 @@ class ModelAPI:
     def del_vars(self, v):
         return self.lib.del_vars(v)
 
+    def param_names(self):
+        return [name for (name, ctype) in MPARAMS]
+
+    def var_names(self):
+        return [name for (name, ctype) in MVARS]
+
     def step(self, p, v, e):
         return self.lib.guyton92_step(p, v, e)
 
@@ -115,8 +121,9 @@ class ModelAPI:
 def load_api(libname = "libg92.so"):
     return ModelAPI(load_library(libname))
 
-def run_simulation(api, t_end=21590):
-    p = api.new_params()
+def run_simulation(api, t_end=21590, p=None):
+    if p is None:
+        p = api.new_params()
     cp = p.contents
     cp.newkidney = 0
     v = api.new_vars()
@@ -169,9 +176,10 @@ class ModelExperiment:
     def step(self, v):
         self.api.step(self.params, v, self.exp)
 
-def run_experiment(api, exp_file="../exps/hypertension.exp"):
+def run_experiment(api, exp_file="../exps/hypertension.exp", p=None):
     exp_file = this_dir(exp_file)
-    p = api.new_params()
+    if p is None:
+        p = api.new_params()
     cp = p.contents
     cp.newkidney = 0
     exp = ModelExperiment(api, p, exp_file)
