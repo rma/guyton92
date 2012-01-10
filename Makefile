@@ -13,8 +13,13 @@ SENS = sensitivity
 # The name of the binary for the sensitivity analyser.
 SENSBIN = $(BUILD_DIR)/$(SENS)
 
+# The basename of the Moore94 model analysis.
+MOORE94 = run_moore94
+# The name of the binary for the model analysis.
+M94BIN = $(BUILD_DIR)/$(MOORE94)
+
 # The names of all binaries defined in this Makefile.
-BINARIES = $(MAINBIN) $(SENSBIN)
+BINARIES = $(MAINBIN) $(SENSBIN) $(M94BIN)
 
 # The C++ modules that define the core of the Guyton model.
 CORE = params vars utils
@@ -40,6 +45,12 @@ SENS_MODS = $(CORE) $(SENS)
 SENS_CPP = $(SENS_MODS:%=$(SRC_DIR)/%.cpp)
 SENS_HDR = $(SENS_MODS:%=$(SRC_DIR)/%.h)
 SENS_SRC = $(SENS_CPP) $(SENS_HDR)
+
+M94_MODS = $(MOORE94)
+# Define variables for the .cpp and .h files.
+M94_CPP = $(M94_MODS:%=$(SRC_DIR)/%.cpp)
+M94_HDR = $(M94_MODS:%=$(SRC_DIR)/%.h)
+M94_SRC = $(M94_CPP) $(M94_HDR)
 
 # The simulation library depends on the following C++ modules.
 LIB_NAME = $(BUILD_DIR)/libg92.so
@@ -113,6 +124,12 @@ $(SENSBIN): $(SENS_SRC)
 	@$(ECHO) "  [Compiling]"
 	@if [ ! -d $(BUILD_DIR) ]; then mkdir $(BUILD_DIR); fi
 	@$(CXX) $(CXXFLAGS) -o $@ $(SENS_CPP)
+
+# Build the Moore94 model analysis.
+$(M94BIN): $(M94_SRC)
+	@$(ECHO) "  [Compiling]"
+	@if [ ! -d $(BUILD_DIR) ]; then mkdir $(BUILD_DIR); fi
+	@$(CXX) $(CXXFLAGS) -o $@ $(M94_CPP)
 
 # Provide "docs" as a separate target.
 docs: $(DOC_DIR)/index.html
