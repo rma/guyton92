@@ -1,0 +1,131 @@
+\documentclass{scrartcl}
+
+  % Turn references and citations into links.
+  \usepackage[pdftex,pdfpagelabels]{hyperref}
+
+  % Provides a more flexible tabular environment.
+  \usepackage{tabularx}
+
+  % Provides better horizontal rules for tables.
+  \usepackage{booktabs}
+
+  % Set the citation and referencing styles.
+  \usepackage[square,numbers,sort&compress]{natbib}
+  \bibliographystyle{plainrgmc}
+
+  % Include plots of the model outputs.
+  \usepackage{graphicx}
+
+  % Allow for sub-figures.
+  \usepackage{subfig}
+
+  % Grammatical shortcuts.
+  \newcommand\eg{e.\,g.\ }
+  \newcommand\ie{i.\,e.\ }
+  \newcommand\cf{cf.\ }
+
+\begin{document}
+
+\section{Methods}
+
+We begin with the pre-distal model of \citeauthor{Moore94} \cite{Moore94}. This gives us values for single-nephron blood flow and the absolute (\ie non-normalised) flow rate and solute concentrations at the end of the ascending limb.
+
+To normalise the flow rate at the end of the ascending limb (to predict the normalised macula densa flow \textbf{MDFLW}), a four-week simulation of the Guyton model was performed. The absolute flow-rate ($Q_{alh}$) was plotted against \textbf{MDFLW} (\autoref{fig:glm}) and a GLM was fitted to the data to predict \textbf{MDFLW} from $Q_{alh}$ (\autoref{eqn:mdflw}).
+\begin{equation}
+  E(\textrm{MDFLW}) = - 3374.8165 + 1978.1256(Q_{alh}) - 386.4192(Q_{alh})^2
+  + 25.1648(Q_{alh})^3
+  \label{eqn:mdflw}
+\end{equation}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.9\textwidth,clip]{compare_qalh}
+  \caption{A comparison of $Q_{alh}$ and \textbf{MDFLW} as calculated by the
+    original Guyton model. The solid line shows a GLM fitted to
+    $(Q_{alh})^k$ for $k \in \{0,1,2,3\}$.}
+  \label{fig:glm}
+\end{figure}
+
+Note that the consequence of this fit is that the MDFLW comparison is essentially linear, but the RBF comparison is not (\autoref{fig:cmp}). But how could this have been avoided? The Moore94 model predicts blood flow to the individual nephron, and the macula densa flow needed to be normalised. Given the more detailed autoregulation model, perhaps normalising MDFLW so that they matches wasn't the most appropriate choice?
+
+\textbf{Step 2:} fractional reabsorption of Na, K and H$_2$O in the EDCT \cite{Weinst05}, CNT \cite{Weinst05a}, CCD \cite{Weinst01}, OMCD \cite{Weinst00} and IMCD \cite{Weinst98a} (\autoref{tbl:segfrac}). Note that the fractional reabsorptions for the entire collecting duct (as taken from the individual papers) do not match Weinstein's values for the entire collecting duct \cite{Weinst02b} (\autoref{tbl:totfrac}), but the difference is not too great.
+
+\textbf{TODO:} plot \textbf{gfr} (\ie old) against \textbf{GFR} (\ie new). And
+also compare GFRs over \textbf{RBF} or \textbf{MDFLW}.
+
+\begin{table}
+  \centering
+  \begin{tabularx}{0.6\textwidth}{Xccc}
+    \toprule
+      & Volume & Na+ & K+ \\
+    \midrule
+    EDCT \cite{Weinst05} & 10\% & 40\% & -86\% \\
+    CNT \cite{Weinst05a} & 42\% & 36\% & -560\% \\
+    CCD \cite{Weinst01} & 63\% & 19\% & 6\% \\
+    OMCD \cite{Weinst00} & 54\% & -25\% & 42\% \\
+    IMCD \cite{Weinst98a} & 77\% & 71\% & 65\% \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Fractional reabsorption in each segment of the distal tubule.}
+  \label{tbl:segfrac}
+\end{table}
+
+\begin{table}
+  \centering
+  \begin{tabularx}{0.6\textwidth}{Xccc}
+    \toprule
+      & Volume & Na+ & K+ \\
+    \midrule
+    CD (total) & 94\% & 81\% & 81\% \\
+    CD (Weinstein \cite{Weinst02b}) & 89\% & 67\% & 81\% \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Fractional reabsorption along the entire collecting duct.}
+  \label{tbl:totfrac}
+\end{table}
+
+\textbf{Step 3:} scaling from a single rat nephron to the human body. Since the pre-distal model was fitted to an individual rat nephron \cite{Moore94}, the absolute values (\ie flow rates) have to be scaled appropriately to produce representative values for a human body. On the assumption that the human body contains on average two million nephrons, the obvious choice is to multiply the flow rates by $2 \times 10^6$. However, the predicted rates were significantly below physiological levels. To account for this, an additional scaling factor was introduced so that, over the course of a four-week simulation, the mean renal blood flow matched the mean value for \textbf{RBF} (a scaling factor of $3.531067$). \textit{This presumably represents the difference in mean flow rate between rat and human nephrons?}
+
+\textbf{Incomplete:} account for the effect of many parameters on the pre-distal model; the effect of hormones on the fractional reabsorption values in the distal model.
+
+\begin{table}
+  \centering
+  \begin{tabular}{lcccccc}
+    \toprule
+      & $\mu$ (G92) & $\mu$ (M94) & $\sigma$ (G92) & $\sigma$ (M94) & $\sigma/\mu$ (G92) & $\sigma/\mu$ (M94) \\
+    \midrule
+    NOD & 0.09701 & 0.11376 & 7.7246e-3 & 1.2653e-3 & 0.07963 & 0.01112 \\
+    KOD & 0.08001 & 0.07391 & 6.7035e-4 & 8.2031e-4 & 0.00838 & 0.01111 \\
+    VUD & 9.8464e-4 & 7.3872e-4 & 3.4093e-5 & 3.9148e-6 & 0.03463 & 0.00530 \\
+    RBF & 1.2192 & 1.1989 & 1.0985e-3 & 6.7950e-4 & 0.00090 & 0.00057 \\
+    MDFLW & 1.0019 & 1.0012 & 7.4551e-3 & 7.3221e-3 & 0.00744 & 0.00731 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Means and deviations for each output of the kidney module.}
+  \label{tbl:stats}
+\end{table}
+
+\begin{figure}
+  \centering
+  \subfloat[Sodium excretion (mEq/min).
+  ]{\includegraphics[width=0.45\textwidth,clip]{compare_nod}}
+  \subfloat[Potassium excretion (mEq/min).
+  ]{\includegraphics[width=0.45\textwidth,clip]{compare_kod}}
+
+  \subfloat[Urine volume (L/min).
+  ]{\includegraphics[width=0.45\textwidth,clip]{compare_vud}}
+  \subfloat[Renal blood flow (L/min).
+  ]{\includegraphics[width=0.45\textwidth,clip]{compare_rbf}}
+
+  \subfloat[Macula densa flow (normalised).
+  ]{\includegraphics[width=0.45\textwidth,clip]{compare_mdflw}}
+  \caption{A comparison between the new and original kidney modules (plotted
+    against the x-axis and y-axis, respectively).}
+  \label{fig:cmp}
+\end{figure}
+
+\clearpage
+
+\bibliography{jabref}
+
+\end{document}
