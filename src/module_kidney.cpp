@@ -73,28 +73,75 @@ void module_kidney(PARAMS &p, VARS &v) {
      cortical, outer-medullary and inner-medullary collecting ducts (CCD,
      OMCD and IMCD, respectively). */
 
+  /* NOTE: the fractional volume reabsorption values differ slightly from
+     the published values for the individual collecting duct segments,
+     particularly for the cortical collecting duct (CCD). Here, the published
+     value is 0.63, but according to Figure 3 (F1241) and text (F1244) of
+     Weinstein, AJP Renal 283(6):F1237-F1251, 2002.
+
+     NOTE: the Na reabsorption is decreased from 0.71 to 0.67, as per
+     the text (F1245) of Weinstein, AJP Renal 283(6):F1237-F1251, 2002.
+
+     http://dx.doi.org/10.1152/ajprenal.00162.2002 */
+
   /* EDCT fractional reabsorption from DOI: 10.1152/ajprenal.00043.2005
-     http://dx.doi.org/10.1152/ajprenal.00043.2005 */
+     http://dx.doi.org/10.1152/ajprenal.00043.2005
+     Text (F709--F710) and Table 5 (F711). */
   double EDCT_reab_Na = 0.40;
   double EDCT_reab_K = -0.86;
   double EDCT_reab_vol = 0.10;
   /* CNT fractional reabsorption from DOI: 10.1152/ajprenal.00044.2005
-     http://dx.doi.org/10.1152/ajprenal.00044.2005 */
+     http://dx.doi.org/10.1152/ajprenal.00044.2005
+     Text (F729) and Table 4 (F730). */
   double CNT_reab_Na = 0.36;
   double CNT_reab_K = -5.60;
   double CNT_reab_vol = 0.42;
-  /* CCD fractional reabsorption from AJP Renal 280:F1072-F1092, 2001. */
+  /* CCD fractional reabsorption from AJP Renal 280:F1072-F1092, 2001.
+     Table 5 (F1085). */
   double CCD_reab_Na = 0.19;
   double CCD_reab_K = 0.06;
-  double CCD_reab_vol = 0.63;
-  /* OMCD fractional reabsorption from AJP Renal 279:F24-F45, 2000. */
+  double CCD_reab_vol = 0.29; /* The cited value is 0.63. */
+  /* OMCD fractional reabsorption from AJP Renal 279:F24-F45, 2000.
+     Table 5 (F35). */
   double OMCD_reab_Na = -0.25;
   double OMCD_reab_K = 0.42;
-  double OMCD_reab_vol = 0.54;
-  /* IMCD fractional reabsorption from AJP Renal 274:F841-F855, 1998. */
-  double IMCD_reab_Na = 0.71;
+  double OMCD_reab_vol = 0.52; /* The cited value is 0.54. */
+  /* IMCD fractional reabsorption from AJP Renal 274:F841-F855, 1998.
+     Text (F846), calculated volume reabsorption from Na reabsorption
+     and end-tubule Na concentration. */
+  double IMCD_reab_Na = 0.67;
   double IMCD_reab_K = 0.65;
-  double IMCD_reab_vol = 0.77;
+  double IMCD_reab_vol = 0.66; /* The cited value is 0.77. */
+
+  /* The effect of Angiotensin II on volume, Na and K fluxes in the EDCT and
+     CNT, as per Wang and Giebisch, AJP Renal 271(1):F143-F149, 1996.
+     Tables 1 (F144) and 3 (F147). Effects were calculated by:
+     (angiotensin II flux) / (control flux). */
+  double EDCT_ang_Na = 1.77;
+  double EDCT_ang_K = 1.0;
+  double EDCT_ang_vol = 1.62;
+  double CNT_ang_Na = 1.98;
+  double CNT_ang_K = 0.46;
+  double CNT_ang_vol = 2.26;
+  /* The effect of ADH on volume, Na and K fluxes in the DT, as per
+     Field, Stanton and Giebisch, Kidney Int 25(3):502-511, 1984.
+     http://dx.doi.org/10.1038/ki.1984.46
+     Table 5 (507). Effects were calculated by:
+     (ADH flux) / (control flux). */
+  // double DT_adh_Na = 1.23;
+  // double DT_adh_K = 1.86;
+  // double DT_adh_vol = 0.11;
+
+  /* TODO: use the formula frac^(1/change) ???
+     eg, f(x,y) = x**(1/y) for x in [0,1], y in (0, N). */
+
+  double Na_Frac = (1 - (1 - EDCT_reab_Na) / EDCT_ang_Na);
+  double K_Frac = (1 - (1 - EDCT_reab_K) / EDCT_ang_K);
+  double vol_Frac = (1 - (1 - EDCT_reab_vol) / EDCT_ang_vol);
+  Na_Frac = (1 - (1 - Na_Frac) / CNT_ang_Na);
+  K_Frac = (1 - (1 - K_Frac) / CNT_ang_K);
+  vol_Frac = (1 - (1 - vol_Frac) / CNT_ang_vol);
+  // Na_Frac =
 
   /*
    * TODO: handle the following variables:
@@ -107,6 +154,51 @@ void module_kidney(PARAMS &p, VARS &v) {
    *   ANMNAM sensitivity controller of dtnang
    *   DIURET diuretic effect on tubular reabsorption
    */
+
+  /*
+   * From CCD paper: aldosterone has negligible effect on volume reabsorption,
+   * but increases Na reabsorption by 68% (0.19 to 0.32) and K reabsorption is
+   * reduced to secretion (0.06 to -0.15).
+   *
+   * Aldosterone:
+   * AMK has min: 0.2 max: 21.4277 mean: 2.730067
+   *         98.5% < 10
+   * Treat it logarithmically? ie, log10(AMK/0.2) / 2 --> [0,1]
+   * AMNA has min: 0.04 max: 15 mean: 5.383318
+   * Treat it logarithmically?
+   *
+   * Angiotensin:
+   * ANM has min: 0.779673 max: 1.47464 mean: 1.118037
+   * ANMNAM has min: 0.333 max: 3 mean: 1.544788
+   * ANMKEM has min: 0.667 max: 5 mean: 2.629994
+   *
+   * ADH:
+   * ADHMK has min: 0.2 max: 4.17458 mean: 1.016653 sd: 0.2272518
+   *           [0.2,2]
+   * AHMNAR has min: 0.1 max: 1.2 mean: 0.5929415 sd: 0.2925694
+   *
+   */
+
+  // Na:
+  // v.amna * ((v.adhmk - 1) * p.ahmnar + 1)
+  // + ((v.anm - 1) * p.anmnam + 1) * 0.1
+
+  // K:
+  // v.amk * 0.08 / ((v.anm - 1) * p.anmkem + 1)
+
+  // H2O:
+  // v.osmopn = v.dturi + 2 * (v.nodn + v.kodn)
+  // v.osmopn is the urinary osmolar excretion (mEq/min, 'normal'/max is 0.6)
+  // v.osmopn / 600 --> [0, 0.001]
+  // v.osmop1 = v.osmopn - 0.6 = v.dturi + 2 * (v.nodn + v.kodn)
+  // dturi max: 2.81551 nodn max: 3.72234 kodn max: 3.44045
+  // v.osmop1 max: 17.44792
+  // v.osmop1 / 360 max: 0.04846644
+  // v.adhmk has min: 0.2 max: 4.17458 mean: 1.016653 sd: 0.2272518
+  //         99.6% in [0.2, 2]
+  // v.vudn = v.osmopn / 600 / v.adhmk + v.osmop1 / 360
+  // v.vudn in [0, 0.005] + v.osmop1/ 360  (L/min)
+  // ...
 
   /* Calculate excretions of: Na (mEq/min), K (mEq/min) and volume (L/min). */
   v.nod = EDCT_in_Na * (1 - EDCT_reab_Na) * (1 - CNT_reab_Na)
