@@ -1,0 +1,91 @@
+# Salt depletion and fluid treatment
+# Ikeda et al., Ann Biomed Eng 7(2):135-166, 1979.
+
+# Use the original renal module.
+newkidney 0
+
+o= vud vec vic vif vp vtw cna
+
+t= 40260
+# The start of the experiment (t = 4 weeks), reporting every hour
+t= 40320
+# drain 4.5 L over 10 hours
+trnsfs -0.0075
+timetr 600
+t= 40380
+t= 40440
+t= 40500
+t= 40560
+t= 40620
+t= 40680
+t= 40740
+t= 40800
+t= 40860
+t= 40920
+t= 40980
+t= 41040
+t= 41100
+t= 41160
+t= 41220
+t= 41280
+t= 41340
+t= 41400
+t= 41460
+t= 41520
+t= 41580
+t= 41640
+t= 41700
+t= 41760
+# transfuse half the deficit (2.25 L) over 48 hours,
+# plus the maintenance amount of 1 mL/min
+trnsfs 0.00178125
+timetr 2880
+t= 41820
+t= 41880
+t= 41940
+t= 42000
+t= 42060
+t= 42120
+t= 42180
+t= 42240
+t= 42300
+t= 42360
+t= 42420
+t= 42480
+t= 42540
+t= 42600
+t= 42660
+t= 42720
+t= 42780
+t= 42840
+t= 42900
+t= 42960
+t= 43020
+t= 43080
+t= 43140
+t= 43200
+t= 43260
+t= 43320
+t= 43380
+t= 43440
+t= 43500
+t= 43560
+t= 43620
+t= 43680
+t= 43740
+t= 43800
+t= 43860
+t= 43920
+t= 43980
+t= 44040
+t= 44100
+t= 44160
+t= 44220
+t= 44280
+t= 44340
+t= 44400
+t= 44460
+t= 44520
+t= 44580
+t= 44640
+The end of the experiment (t = 4 weeks and 3 days)

@@ -42,4 +42,9 @@ void module_thirst(const PARAMS &p, VARS &v) {
   }
 
   v.tvd = v.tvd + (v.tvz + p.dr - v.tvd) / p.tvddl * v.i;
+#ifdef UTTAMSINGH2
+  if (v.t >= 39360 && v.t <= 40320) {
+    v.tvd = 0;
+  }
+#endif
 }

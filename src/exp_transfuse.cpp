@@ -43,8 +43,37 @@ void exp_transfuse(PARAMS &p, VARS &v) {
     double pcnt_p = p.trnsfs * pcnt;
     v.vp = v.vp + pcnt_p;
     v.nae = v.nae + pcnt_p * 4349.76;
-#endif
-#ifndef UTTAMSINGH2
+#elif defined IKEDA7
+    double pcnt_p = p.trnsfs * pcnt;
+    if (v.t < 41760) {
+        // saline loss
+        v.vp = v.vp + pcnt_p;
+        v.nae = v.nae + pcnt_p * v.cna;
+    } else {
+        // infuse the fluid treatment and maintenance amount
+        v.vp = v.vp + pcnt_p;
+        v.nae = v.nae + pcnt_p * v.cna;
+    }
+#elif defined IKEDA7A
+    double pcnt_p = p.trnsfs * pcnt;
+    if (v.t < 41760) {
+        // saline loss
+        v.vp = v.vp + pcnt_p;
+        v.nae = v.nae + pcnt_p * v.cna;
+    } else {
+        // fluid treatment
+        if (v.vud >= 0.001) {
+            // only infuse the maintenance amount
+            pcnt_p = 0.001 * pcnt;
+            v.vp = v.vp + pcnt_p;
+            v.nae = v.nae + pcnt_p * v.cna;
+        } else {
+            // infuse the fluid treatment and maintenance amount
+            v.vp = v.vp + pcnt_p;
+            v.nae = v.nae + pcnt_p * v.cna;
+        }
+    }
+#else
     double pcnt_p = p.trnsfs * pcnt * (100 - p.hmtrns);
     double pcnt_c = p.trnsfs * pcnt * p.hmtrns;
 
