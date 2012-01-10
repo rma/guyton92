@@ -1,0 +1,13 @@
+# Overly rapid correction of chronic hyponatremia.
+
+# The start of the experiment
+t= 10070
+
+t= 10190
+rek 0.3
+
+t= 15830
+nid 0.5
+
+# The end of the experiment (8 days)
+t= 21590
