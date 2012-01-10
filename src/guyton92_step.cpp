@@ -67,9 +67,11 @@ using namespace std;
  * @param[in] e      The chosen experiment (if any) to run.
  */
 extern "C" void guyton92_step(PARAMS &p, VARS &v, Experiment *e) {
+  fflush(stdout);
   if (e) {
     e->update(v.t);
   }
+  fflush(stdout);
 
   /* Disable autoregulation if AURG is negative. */
   if (v.aurg <= 0) {
@@ -93,6 +95,8 @@ extern "C" void guyton92_step(PARAMS &p, VARS &v, Experiment *e) {
        we restart the main simulation loop.
        NOTE: this is the module that increases the simulation time. */
     return;
+    /* When p.newkidney == 1, this check always fails at t = 14526.197550
+       and the simulation livelocks. */
   }
   module_aldost(p, v);
   module_angio(p, v);
