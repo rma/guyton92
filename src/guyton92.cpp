@@ -51,6 +51,8 @@ void usage(char* progname, int exitcode) {
   cerr << "\n  OPTIONS:" << endl;
   cerr << "    -a, --no-filter     " <<
     "Display the output variables after each time-step." << endl;
+  cerr << "    -n, --no-exp     " <<
+    "Do not print the experiment definition." << endl;
   cerr << "    -o, --outputs=VARS  " <<
     "Set the output variables (comma-separated list)." << endl;
   cerr << "    -h, --help          " <<
@@ -81,11 +83,13 @@ int main(int argc, char *argv[]) {
   /* Options that can be set by command-line parameters. */
   bool use_filter = true; /* Whether or not to filter notifications. */
   bool use_outs = false; /* Whether output variables have been specified. */
+  bool write_exp = true; /* Whether to print the experiment definition. */
   vector<string> outs; /* The specified output variables. */
 
   static struct option long_options[] = {
     /* Options are distinguished by a single character. */
     {"no-filter", no_argument,       0, 'a'},
+    {"no-exp",    no_argument,       0, 'n'},
     {"outputs",   required_argument, 0, 'o'},
     {"help",      no_argument,       0, 'h'},
     {NULL, 0, 0, 0}
@@ -95,7 +99,7 @@ int main(int argc, char *argv[]) {
 
   /* Process every parameter that has been given. */
   while (1) {
-    c = getopt_long(argc, argv, "hao:", long_options, &option_index);
+    c = getopt_long(argc, argv, "hano:", long_options, &option_index);
     if (c == -1) {
       break; /* No more parameters to process. */
     }
@@ -108,6 +112,9 @@ int main(int argc, char *argv[]) {
     case 'a':
       /* Don't filter the notifications of the model state. */
       use_filter = false;
+      break;
+    case 'n':
+      write_exp = false;
       break;
     case 'o':
       /* Use the output variables specified on the command line. */
@@ -165,7 +172,9 @@ int main(int argc, char *argv[]) {
   double tend = 60 * 24 * 7 * 4;
   if (e) {
     tend = e->stop_at();
-    e->write_exp(cout);
+    if (write_exp) {
+      e->write_exp(cout);
+    }
   }
 
   /* Filter the notifications. */
