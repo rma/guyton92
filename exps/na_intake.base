@@ -1,0 +1,35 @@
+# Use the original renal module.
+newkidney 0
+
+# Use the default sodium intake to reach a baseline condition.
+nid 0.1
+
+# adhc:   ADH concentration (normalised)
+# adhmk:  ADH effect on Na and H2O reabsorption
+# am:     Aldosterone multiplier
+# amc:    Aldosterone concentration (normalised)
+# amna:   Aldosterone effect on Na reabsorption
+# anm:    Angiotensin multiplier
+# cna:    Extracellular sodium concentration         (mEq/L)
+# cpp:    Plasma protein concentration               (g/L)
+# dtnang: Distal Na reabsorption due to angiotensin  (mEq/min)
+# dtnara: Distal Na reabsorption (non-angiotensin)   (mEq/min)
+# gfr:    Glomerular filtration rate                 (L/min)
+# glp:    Glomerular (hydrostatic) pressure          (mmHg)
+# glpc:   Glomerular colloid oncotic pressure        (mmHg)
+# mdflw:  Macula densa flow (normalised)
+# osmopn: Urinary osmolar excretion                  (mEq/min)
+# nod:    Sodium excretion                           (mEq/min)
+# pa:     Mean arterial pressure                     (mmHg)
+# par:    Renal arterial pressure                    (mmHg)
+# pfl:    Renal filtration pressure                  (mmHg)
+# ppc:    Plasma colloid osmotic pressure            (mmHg)
+# rbf:    Renal blood flow                           (L/min)
+# rr:     Total renal resistance                     (mmHg min/L)
+# vud:    Rate of urine production                   (L/min)
+
+o= adhc adhmk am amc amna anm cna cpp dtnang dtnara gfr glp glpc mdflw nod osmopn pa par pfl ppc rbf rr vud
+
+# The start of the experiment (t = 4 weeks - 1 hour), reporting every hour
+t= 40260
+t= 40320
